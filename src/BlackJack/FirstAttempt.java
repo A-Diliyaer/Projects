@@ -22,6 +22,12 @@ public class FirstAttempt {
         int cardDraw, count1, count2;
         System.out.println("Welcome to BlackJack table #3!");
         do {
+            sumPlayer1 = 0;
+            sumPlayer2 = 0;
+            sumDealer1 = 0;
+            sumDealer2 = 0;
+            dealerFinal = 0;
+            playerFinal = 0;
             cardDraw = 0;
             count1 = 0;
             count2 =0;
@@ -39,7 +45,7 @@ public class FirstAttempt {
                         count2 = 0;
                     }
                 }
-                System.out.println(Arrays.toString(deck)); // Remove when complete
+
                 /** Shuffles the deck
                  *
                  */
@@ -49,7 +55,6 @@ public class FirstAttempt {
                     deck[randomIndexToSwap] = deck[j];
                     deck[j] = temp;
                 }
-                System.out.println(Arrays.toString(deck)); // Remove when complete
                 /** Deals two cards to the player
                  *
                  */
@@ -157,22 +162,49 @@ public class FirstAttempt {
                 /** Ask if the player wants a hit
                  *
                  */
-                if (sumPlayer1 < 21 || sumPlayer2 < 21) { // if players first hand of cards if not 21
+                playerFinal = Math.max(sumPlayer1, sumPlayer2);
+                dealerFinal = Math.max(sumDealer1, sumDealer2);
+                if (sumPlayer1 < 21 && sumPlayer2 < 21) { // if players first hand of cards if not 21
                     System.out.println("Would you like a hit?");
                     answerHit = scan.next();
                     if (answerHit.equalsIgnoreCase("yes")) { // if player what a hit
+                        playerAddHand = "";
+                        do {
+                            System.out.println("The player gets one more card");
+                            playerAddHand += ", " + deck[cardDraw];
+                            if (deck[cardDraw].charAt(0) > 47 && deck[cardDraw].charAt(0) < 58 && deck[cardDraw].charAt(1) == ' ') {
+                                playerCardValue1 = Integer.parseInt(deck[cardDraw].substring(0,1));
+                            } else if (deck[cardDraw].startsWith("10") ||
+                                    deck[cardDraw].substring(0,1).startsWith("J") ||
+                                    deck[cardDraw].substring(0,1).startsWith("Q") ||
+                                    deck[cardDraw].substring(0,1).startsWith("K")) {
+                                playerCardValue1 = 10;
+                            } else if (deck[cardDraw].startsWith("A")) {
+                                if (playerFinal > 10) {
+                                    playerCardValue1 = 1;
+                                } else {
+                                    playerCardValue1 = 11;
+                                }
+                            }
+                            playerFinal += playerCardValue1;
+                            if ((playerHand1.startsWith("A") || playerHand2.startsWith("A")) && playerFinal > 21) {
+                                playerFinal = sumPlayer1 + playerCardValue1;
+                            }
+                            System.out.println(playerHand1 + ", " + playerHand2 + playerAddHand);
+                            System.out.println(playerFinal);
+                            ++cardDraw;
+                            if (playerFinal < 21) {
+                                System.out.println("Would you like another hit?");
+                                answerHit = scan.next();
+                            } else {
+                                answerHit = "no";
+                            }
 
-                    } else { // if player does not want a hit
-                        if (sumPlayer1 > sumPlayer2) {
-                            playerFinal = sumPlayer1;
-                        } else {
-                            playerFinal = sumPlayer2;
-                        }
-                        if (sumDealer1 > sumDealer2) {
-                            dealerFinal = sumDealer1;
-                        } else {
-                            dealerFinal = sumDealer2;
-                        }
+                        } while (answerHit.equalsIgnoreCase("yes"));
+
+                    }
+                    if (answerHit.equalsIgnoreCase("no")){ // if player does not want a hit
+                        System.out.println("Dealer's cards are: " + dealerHand1 + ", " + dealerHand2);
                         dealerAddHand = "";
                         while (dealerFinal < 17) {
                             System.out.println("The dealer draws one more card");
@@ -185,23 +217,26 @@ public class FirstAttempt {
                                     deck[cardDraw].substring(0,1).startsWith("K")) {
                                 dealerCardValue1 = 10;
                             } else if (deck[cardDraw].startsWith("A")) {
-                                if (sumDealer1 > 10 || sumDealer2 > 10) {
+                                if (dealerFinal > 10) {
                                     dealerCardValue1 = 1;
                                 } else {
                                     dealerCardValue1 = 11;
                                 }
                             }
                             dealerFinal += dealerCardValue1;
+                            if ((dealerHand1.startsWith("A") || dealerHand2.startsWith("A")) && dealerFinal > 21) {
+                                dealerFinal = sumDealer1 + dealerCardValue1;
+                            }
                             System.out.println(dealerHand1 + ", " + dealerHand2 + dealerAddHand);
                             System.out.println(dealerFinal);
                             ++cardDraw;
                         }
-                        if ((playerFinal > dealerFinal && playerFinal < 22) || dealerFinal > 22) {
+                        if (playerFinal > dealerFinal || dealerFinal > 21) {
                             System.out.println("The sum of your cards is " + playerFinal);
                             System.out.println("Dealer's cards are: " + dealerHand1 + ", " + dealerHand2 + dealerAddHand);
                             System.out.println("The sum of dealer's cards is " + dealerFinal);
                             System.out.println("Winner! Winner! Chicken Dinner!");
-                        } else if (playerFinal == dealerFinal && dealerFinal < 22) {
+                        } else if (playerFinal == dealerFinal) {
                             System.out.println("The sum of your cards is " + playerFinal);
                             System.out.println("Dealer's cards are: " + dealerHand1 + ", " + dealerHand2 + dealerAddHand);
                             System.out.println("The sum of dealer's cards is " + dealerFinal);
@@ -213,13 +248,50 @@ public class FirstAttempt {
                             System.out.println("You lose!");
                         }
                     }
-                } else {
+                } else if (playerFinal == 21){
                     //this is when the player get 21 right on the first hand of cards
+                    dealerAddHand = "";
+                    while (dealerFinal < 17) {
+                        System.out.println("The dealer draws one more card");
+                        dealerAddHand += ", " + deck[cardDraw];
+                        if (deck[cardDraw].charAt(0) > 47 && deck[cardDraw].charAt(0) < 58 && deck[cardDraw].charAt(1) == ' ') {
+                            dealerCardValue1 = Integer.parseInt(deck[cardDraw].substring(0,1));
+                        } else if (deck[cardDraw].startsWith("10") ||
+                                deck[cardDraw].substring(0,1).startsWith("J") ||
+                                deck[cardDraw].substring(0,1).startsWith("Q") ||
+                                deck[cardDraw].substring(0,1).startsWith("K")) {
+                            dealerCardValue1 = 10;
+                        } else if (deck[cardDraw].startsWith("A")) {
+                            if (sumDealer1 > 10 || sumDealer2 > 10) {
+                                dealerCardValue1 = 1;
+                            } else {
+                                dealerCardValue1 = 11;
+                            }
+                        }
+                        dealerFinal += dealerCardValue1;
+                        if ((dealerHand1.startsWith("A") || dealerHand2.startsWith("A")) && dealerFinal > 21) {
+                            dealerFinal = sumDealer1 + dealerCardValue1;
+                        }
+                        System.out.println(dealerHand1 + ", " + dealerHand2 + dealerAddHand);
+                        System.out.println(dealerFinal);
+                        ++cardDraw;
+                    }
+                    if (playerFinal == dealerFinal) {
+                        System.out.println("The sum of your cards is " + playerFinal);
+                        System.out.println("Dealer's cards are: " + dealerHand1 + ", " + dealerHand2 + dealerAddHand);
+                        System.out.println("The sum of dealer's cards is " + dealerFinal);
+                        System.out.println("It's a draw!");
+                    } else {
+                        System.out.println("The sum of your cards is " + playerFinal);
+                        System.out.println("Dealer's cards are: " + dealerHand1 + ", " + dealerHand2 + dealerAddHand);
+                        System.out.println("The sum of dealer's cards is " + dealerFinal);
+                        System.out.println("Winner! Winner! Chicken Dinner!");
+                    }
                 }
 
             }
 
         } while (answer.equalsIgnoreCase("yes"));
-
+        System.out.println("Next time then! Enjoy your stay at Casino hotel! ");
     }
 }

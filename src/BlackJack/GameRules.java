@@ -39,8 +39,8 @@ public class GameRules {
          *                         - dealer - you have 2 options:
          *                                              - either set a fixed value to dealers hand (18)
          *                                              - or make dealer logic that decides if dealer hand
-         *                                                is too low it accepts a hit, if high it doesnt
-         *                                                (- The dealer hits until their sum of card is equal to or more than a hard 17) ******************************
+         *                                                is too low it accepts a hit, if high it doesn't
+         *                                                (- The dealer hits until their sum of card at least 17) ******************************
          *               6. ask player "would you like another hit?"
          *               7. REPEAT step 5 until:
          *                                  - player decides to stop
