@@ -28,8 +28,8 @@ public class GameRules {
          *            - if YES - START GAME
          *               1. create a DECK of 52 cards, then shuffle it (randomize order)
          *               2. deal 2 cards to player, and 2 cards to dealer
-         *               3. display player cards and dealer cards on the console
-         *               4. display sum of cards for both player and dealer
+         *               3. display player cards and dealer cards on the console  (Should only show one of dealer's cards)************************************
+         *               4. display sum of cards for both player and dealer       (Should only show one of dealer's cards)*************************************
          *               4. ask player "would you like a hit?"
          *               5. if NO  - compare the sum
          *                         - display WINNER
@@ -40,6 +40,7 @@ public class GameRules {
          *                                              - either set a fixed value to dealers hand (18)
          *                                              - or make dealer logic that decides if dealer hand
          *                                                is too low it accepts a hit, if high it doesnt
+         *                                                (- The dealer hits until their sum of card is equal to or more than a hard 17) ******************************
          *               6. ask player "would you like another hit?"
          *               7. REPEAT step 5 until:
          *                                  - player decides to stop
