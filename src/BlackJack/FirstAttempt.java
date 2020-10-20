@@ -47,26 +47,11 @@ public class FirstAttempt {
                 playerFinal = Math.max(sumPlayer1, sumPlayer2);  // Picks the greater sum of cards and save it
                 dealerFinal = Math.max(sumDealer1, sumDealer2);  // Picks the greater sum of cards and save it
 
-
-
                 if (sumPlayer1 < 21 && sumPlayer2 < 21) { // if players first hand of cards if not 21
-                    System.out.println("Would you like a hit?");  // Ask if the player wants a hit
-                    answerHit = scan.next();
-                    if (answerHit.equalsIgnoreCase("yes")) { // if player what a hit
-                        playerHits();
-                    }
-                    if (answerHit.equalsIgnoreCase("no")){ // if player does not want a hit
-                        System.out.println("Dealer's cards are: " + dealerHand1 + ", " + dealerHand2);
-                        dealerHits();
-                        displayResults();
-                    }
+                    wouldYouLikeAHit();
                 } else if (playerFinal == 21){  //this is when the player get 21 right on the first hand of cards
                     dealerHits();
-                    if (playerFinal == dealerFinal) {
-                        displayItIsADraw();
-                    } else {
-                        displayYouWin();
-                    }
+                    displayResults21();
                 }
             }
             game = "another game";
@@ -181,6 +166,18 @@ public class FirstAttempt {
             System.out.println("The sum of dealer's card is " + dealerCardValue1);
         }
     }
+    public static void wouldYouLikeAHit() {
+        System.out.println("Would you like a hit?");  // Ask if the player wants a hit
+        answerHit = scan.next();
+        if (answerHit.equalsIgnoreCase("yes")) { // if player what a hit
+            playerHits();
+        }
+        if (answerHit.equalsIgnoreCase("no")){ // if player does not want a hit
+
+            dealerHits();
+            displayResults();
+        }
+    }
     public static void playerHits() {
         playerAddHand = "";
         do {
@@ -215,6 +212,7 @@ public class FirstAttempt {
         } while (answerHit.equalsIgnoreCase("yes"));
     }
     public static void dealerHits() {
+        System.out.println("Dealer's cards are: " + dealerHand1 + ", " + dealerHand2);
         dealerAddHand = "";
         while (dealerFinal < 17) {
             System.out.println("The dealer draws one more card");
@@ -248,6 +246,13 @@ public class FirstAttempt {
             displayItIsADraw();
         } else {
             displayYouLose();
+        }
+    }
+    public static void displayResults21() {
+        if (playerFinal == dealerFinal) {
+            displayItIsADraw();
+        } else {
+            displayYouWin();
         }
     }
     public static void displayYouWin() {
