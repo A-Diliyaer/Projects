@@ -6,55 +6,37 @@ import java.util.Scanner;
 
 public class FirstAttempt {
 
+    private static String[] suits={"CLUBS", "DIAMONDS", "SPADES", "HEARTS"};
+    private static String[] cards = {"2","3","4","5","6","7","8","9","10","J","Q","K","A"};
+    private static String[] deck = new String[52];
+    private static Random myRandom = new Random();
+
     public static void main(String[] args) {
 
         Scanner scan = new Scanner(System.in);
-        Random myRandom = new Random();
-        String[] cards = {"2","3","4","5","6","7","8","9","10","J","Q","K","A"};
-        String[] suits = {"CLUBS", "DIAMONDS", "SPADES", "HEARTS"};
-        String[] deck = new String[52];
-        String playerHand1, playerHand2, playerAddHand = "", dealerHand1, dealerHand2, dealerAddHand;
+        String playerHand1, playerHand2, playerAddHand, dealerHand1, dealerHand2, dealerAddHand;
         String answer,answerHit;
-        int sumPlayer1, sumPlayer2 = 0, playerFinal, dealerFinal;
+        int sumPlayer1, sumPlayer2, playerFinal, dealerFinal;
         int playerCardValue1 = 0, playerCardValue2 = 0, playerCardValue3 = 0, playerCardValue4 = 0;
-        int sumDealer1, sumDealer2 = 0;
+        int sumDealer1, sumDealer2;
         int dealerCardValue1 = 0, dealerCardValue2 = 0, dealerCardValue3 = 0, dealerCardValue4 = 0;
-        int cardDraw, count1, count2;
+        int cardDraw;
         System.out.println("Welcome to BlackJack table #3!");
         do {
-            sumPlayer1 = 0;
             sumPlayer2 = 0;
-            sumDealer1 = 0;
             sumDealer2 = 0;
-            dealerFinal = 0;
-            playerFinal = 0;
             cardDraw = 0;
-            count1 = 0;
-            count2 =0;
             System.out.println("Would you like to play BlackJack?");
             answer = scan.next();
             if (answer.equalsIgnoreCase("yes")) {
                 /** Creates a deck of 52 cards
                  *
                  */
-                for (int i = 0; i < deck.length; i++) {
-                    deck[i] = cards[count2] + " " + suits[count1];
-                    ++count2;
-                    if (i == 12 || i == 25 || i == 38) {
-                        ++count1;
-                        count2 = 0;
-                    }
-                }
-
+                createDeckOfCards();
                 /** Shuffles the deck
                  *
                  */
-                for (int j = 0; j < deck.length; j++) {
-                    int randomIndexToSwap = myRandom.nextInt(deck.length);
-                    String temp = deck[randomIndexToSwap];
-                    deck[randomIndexToSwap] = deck[j];
-                    deck[j] = temp;
-                }
+                shuffleDeckOfCards();
                 /** Deals two cards to the player
                  *
                  */
@@ -76,10 +58,8 @@ public class FirstAttempt {
                  */
                 if (playerHand1.charAt(0) > 47 && playerHand1.charAt(0) < 58 && playerHand1.charAt(1) == ' ') {
                     playerCardValue1 = Integer.parseInt(playerHand1.substring(0,1));
-                } else if (playerHand1.startsWith("10") ||
-                        playerHand1.substring(0,1).startsWith("J") ||
-                        playerHand1.substring(0,1).startsWith("Q") ||
-                        playerHand1.substring(0,1).startsWith("K")) {
+                } else if (playerHand1.startsWith("10") || playerHand1.startsWith("J") ||
+                        playerHand1.startsWith("Q") || playerHand1.startsWith("K")) {
                     playerCardValue1 = 10;
                 } else if (playerHand1.startsWith("A")) {
                     playerCardValue1 = 1;
@@ -87,10 +67,8 @@ public class FirstAttempt {
                 }
                 if (playerHand2.charAt(0) > 47 && playerHand2.charAt(0) < 58 && playerHand2.charAt(1) == ' ') {
                     playerCardValue2 = Integer.parseInt(playerHand2.substring(0,1));
-                } else if (playerHand2.startsWith("10") ||
-                        playerHand2.substring(0,1).startsWith("J") ||
-                        playerHand2.substring(0,1).startsWith("Q") ||
-                        playerHand2.substring(0,1).startsWith("K")) {
+                } else if (playerHand2.startsWith("10") || playerHand2.startsWith("J") ||
+                        playerHand2.startsWith("Q") || playerHand2.startsWith("K")) {
                     playerCardValue2 = 10;
                 } else if (playerHand2.startsWith("A")) {
                     playerCardValue2 = 1;
@@ -120,10 +98,8 @@ public class FirstAttempt {
                  */
                 if (dealerHand1.charAt(0) > 47 && dealerHand1.charAt(0) < 58 && dealerHand1.charAt(1) == ' ') {
                     dealerCardValue1 = Integer.parseInt(dealerHand1.substring(0,1));
-                } else if (dealerHand1.startsWith("10") ||
-                        dealerHand1.substring(0,1).startsWith("J") ||
-                        dealerHand1.substring(0,1).startsWith("Q") ||
-                        dealerHand1.substring(0,1).startsWith("K")) {
+                } else if (dealerHand1.startsWith("10") || dealerHand1.startsWith("J") ||
+                        dealerHand1.startsWith("Q") || dealerHand1.startsWith("K")) {
                     dealerCardValue1 = 10;
                 } else if (dealerHand1.startsWith("A")) {
                     dealerCardValue1 = 1;
@@ -131,10 +107,8 @@ public class FirstAttempt {
                 }
                 if (dealerHand2.charAt(0) > 47 && dealerHand2.charAt(0) < 58 && dealerHand2.charAt(1) == ' ') {
                     dealerCardValue2 = Integer.parseInt(dealerHand2.substring(0,1));
-                } else if (dealerHand2.startsWith("10") ||
-                        dealerHand2.substring(0,1).startsWith("J") ||
-                        dealerHand2.substring(0,1).startsWith("Q") ||
-                        dealerHand2.substring(0,1).startsWith("K")) {
+                } else if (dealerHand2.startsWith("10") || dealerHand2.startsWith("J") ||
+                        dealerHand2.startsWith("Q") || dealerHand2.startsWith("K")) {
                     dealerCardValue2 = 10;
                 } else if (dealerHand2.startsWith("A")) {
                     dealerCardValue2 = 1;
@@ -174,10 +148,8 @@ public class FirstAttempt {
                             playerAddHand += ", " + deck[cardDraw];
                             if (deck[cardDraw].charAt(0) > 47 && deck[cardDraw].charAt(0) < 58 && deck[cardDraw].charAt(1) == ' ') {
                                 playerCardValue1 = Integer.parseInt(deck[cardDraw].substring(0,1));
-                            } else if (deck[cardDraw].startsWith("10") ||
-                                    deck[cardDraw].substring(0,1).startsWith("J") ||
-                                    deck[cardDraw].substring(0,1).startsWith("Q") ||
-                                    deck[cardDraw].substring(0,1).startsWith("K")) {
+                            } else if (deck[cardDraw].startsWith("10") || deck[cardDraw].startsWith("J") ||
+                                    deck[cardDraw].startsWith("Q") || deck[cardDraw].startsWith("K")) {
                                 playerCardValue1 = 10;
                             } else if (deck[cardDraw].startsWith("A")) {
                                 if (playerFinal > 10) {
@@ -201,7 +173,6 @@ public class FirstAttempt {
                             }
 
                         } while (answerHit.equalsIgnoreCase("yes"));
-
                     }
                     if (answerHit.equalsIgnoreCase("no")){ // if player does not want a hit
                         System.out.println("Dealer's cards are: " + dealerHand1 + ", " + dealerHand2);
@@ -211,10 +182,8 @@ public class FirstAttempt {
                             dealerAddHand += ", " + deck[cardDraw];
                             if (deck[cardDraw].charAt(0) > 47 && deck[cardDraw].charAt(0) < 58 && deck[cardDraw].charAt(1) == ' ') {
                                 dealerCardValue1 = Integer.parseInt(deck[cardDraw].substring(0,1));
-                            } else if (deck[cardDraw].startsWith("10") ||
-                                    deck[cardDraw].substring(0,1).startsWith("J") ||
-                                    deck[cardDraw].substring(0,1).startsWith("Q") ||
-                                    deck[cardDraw].substring(0,1).startsWith("K")) {
+                            } else if (deck[cardDraw].startsWith("10") || deck[cardDraw].startsWith("J") ||
+                                    deck[cardDraw].startsWith("Q") || deck[cardDraw].startsWith("K")) {
                                 dealerCardValue1 = 10;
                             } else if (deck[cardDraw].startsWith("A")) {
                                 if (dealerFinal > 10) {
@@ -256,10 +225,8 @@ public class FirstAttempt {
                         dealerAddHand += ", " + deck[cardDraw];
                         if (deck[cardDraw].charAt(0) > 47 && deck[cardDraw].charAt(0) < 58 && deck[cardDraw].charAt(1) == ' ') {
                             dealerCardValue1 = Integer.parseInt(deck[cardDraw].substring(0,1));
-                        } else if (deck[cardDraw].startsWith("10") ||
-                                deck[cardDraw].substring(0,1).startsWith("J") ||
-                                deck[cardDraw].substring(0,1).startsWith("Q") ||
-                                deck[cardDraw].substring(0,1).startsWith("K")) {
+                        } else if (deck[cardDraw].startsWith("10") || deck[cardDraw].startsWith("J") ||
+                                deck[cardDraw].startsWith("Q") || deck[cardDraw].startsWith("K")) {
                             dealerCardValue1 = 10;
                         } else if (deck[cardDraw].startsWith("A")) {
                             if (sumDealer1 > 10 || sumDealer2 > 10) {
@@ -288,10 +255,26 @@ public class FirstAttempt {
                         System.out.println("Winner! Winner! Chicken Dinner!");
                     }
                 }
-
             }
-
         } while (answer.equalsIgnoreCase("yes"));
         System.out.println("Next time then! Enjoy your stay at Casino hotel! ");
+    }
+
+    public static void createDeckOfCards() {
+        int k = 0;
+        for (String suit : suits) {
+            for (String card : cards) {
+                deck[k] = card + " " + suit;
+                ++k;
+            }
+        }
+    }
+    public static void shuffleDeckOfCards() {
+        for (int j = 0; j < deck.length; j++) {
+            int randomIndexToSwap = myRandom.nextInt(deck.length);
+            String temp = deck[randomIndexToSwap];
+            deck[randomIndexToSwap] = deck[j];
+            deck[j] = temp;
+        }
     }
 }
