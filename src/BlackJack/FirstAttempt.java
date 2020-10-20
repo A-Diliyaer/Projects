@@ -6,11 +6,11 @@ import java.util.Scanner;
 
 public class FirstAttempt {
 
-    private static Scanner scan = new Scanner(System.in);
-    private static Random myRandom = new Random();
-    private static String[] suits={"CLUBS", "DIAMONDS", "SPADES", "HEARTS"};
-    private static String[] cards = {"2","3","4","5","6","7","8","9","10","J","Q","K","A"};
-    private static String[] deck = new String[52];
+    private static final Scanner scan = new Scanner(System.in);
+    private static final Random myRandom = new Random();
+    private static final String[] suits={"CLUBS", "DIAMONDS", "SPADES", "HEARTS"};
+    private static final String[] cards = {"2","3","4","5","6","7","8","9","10","J","Q","K","A"};
+    private static final String[] deck = new String[52];
     private static String playerHand1, playerHand2, playerAddHand, dealerHand1, dealerHand2, dealerAddHand, answer,answerHit;
     private static int sumPlayer1, sumPlayer2, playerFinal, dealerFinal, sumDealer1, sumDealer2, cardDraw;
     private static int playerCardValue1 = 0, playerCardValue2 = 0, playerCardValue3 = 0, playerCardValue4 = 0;
@@ -28,26 +28,26 @@ public class FirstAttempt {
             System.out.println("Would you like to play " + game + "?");
             answer = scan.next();
             if (answer.equalsIgnoreCase("yes")) {
-                createDeckOfCards();  // Creates a deck of 52 cards
+                createDeckOfCards();
 
-                shuffleDeckOfCards();  // Shuffles the deck
+                shuffleDeckOfCards();
 
-                playerFirstTwoCards();  // Deals two cards to the player
+                playerFirstTwoCards();
 
-                dealerFirstTwoCards();  // Deals two cards to the dealer, but only show the first card
+                dealerFirstTwoCards();
 
-                playerCardsValue();  // Determines the sum of cards for the player
+                playerCardsValue();
 
-                displayPlayerSumOfCard();  // Displays the sum of cards for the player
+                displayPlayerSumOfCard();
 
-                dealerCardsValue();  // Determines the sum of cards for the dealer
+                dealerCardsValue();
 
-                displayDealerSumOfCards();  // Displays the sum of cards for the dealer
+                displayDealerSumOfCards();
 
-                playerFinal = Math.max(sumPlayer1, sumPlayer2);  // Picks the greater sum of cards and save it
-                dealerFinal = Math.max(sumDealer1, sumDealer2);  // Picks the greater sum of cards and save it
+                playerFinal = Math.max(sumPlayer1, sumPlayer2);
+                dealerFinal = Math.max(sumDealer1, sumDealer2);
 
-                if (sumPlayer1 < 21 && sumPlayer2 < 21) { // if players first hand of cards if not 21
+                if (sumPlayer1 < 21 && sumPlayer2 < 21) {
                     wouldYouLikeAHit();
                 } else if (playerFinal == 21){  //this is when the player get 21 right on the first hand of cards
                     dealerHits();
