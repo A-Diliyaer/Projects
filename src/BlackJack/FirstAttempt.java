@@ -110,6 +110,7 @@ public class FirstAttempt {
             playerCardValue4 = 11;
         }
     }
+
     public static void displayPlayerSumOfCard() {
         if (playerHand1.startsWith("A") && !playerHand2.startsWith("A")) {
             sumPlayer1 = playerCardValue1 + playerCardValue2;
