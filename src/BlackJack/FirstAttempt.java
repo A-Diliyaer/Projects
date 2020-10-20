@@ -6,15 +6,15 @@ import java.util.Scanner;
 
 public class FirstAttempt {
 
-    private static final Scanner scan = new Scanner(System.in);
-    private static final Random myRandom = new Random();
-    private static final String[] suits={"CLUBS", "DIAMONDS", "SPADES", "HEARTS"};
-    private static final String[] cards = {"2","3","4","5","6","7","8","9","10","J","Q","K","A"};
-    private static final String[] deck = new String[52];
-    private static String playerHand1, playerHand2, playerAddHand, dealerHand1, dealerHand2, dealerAddHand, answer,answerHit;
-    private static int sumPlayer1, sumPlayer2, playerFinal, dealerFinal, sumDealer1, sumDealer2, cardDraw;
-    private static int playerCardValue1 = 0, playerCardValue2 = 0, playerCardValue3 = 0, playerCardValue4 = 0;
-    private static int dealerCardValue1 = 0, dealerCardValue2 = 0, dealerCardValue3 = 0, dealerCardValue4 = 0;
+    public static final Scanner scan = new Scanner(System.in);
+    public static final Random myRandom = new Random();
+    public static final String[] suits={"CLUBS", "DIAMONDS", "SPADES", "HEARTS"};
+    public static final String[] cards = {"2","3","4","5","6","7","8","9","10","J","Q","K","A"};
+    public static final String[] deck = new String[52];
+    public static String playerHand1, playerHand2, playerAddHand, dealerHand1="", dealerHand2="", dealerAddHand, answer,answerHit;
+    public static int playerCardValue1 = 0, playerCardValue2 = 0, playerCardValue3 = 0, playerCardValue4 = 0;
+    public static int dealerCardValue1 = 0, dealerCardValue2 = 0, dealerCardValue3 = 0, dealerCardValue4 = 0;
+    public static int sumPlayer1, sumPlayer2, playerFinal, dealerFinal, sumDealer1, sumDealer2, cardDraw;
 
     public static void main(String[] args) {
 
@@ -36,11 +36,13 @@ public class FirstAttempt {
 
                 dealerFirstTwoCards();
 
-                playerCardsValue();
+                //playerCardsValue();
+                cardValues(playerHand1, playerHand2, playerCardValue1, playerCardValue2, playerCardValue3, playerCardValue4);
 
                 displayPlayerSumOfCard();
 
-                dealerCardsValue();
+                //dealerCardsValue();
+                cardValues(dealerHand1, dealerHand2, dealerCardValue1, dealerCardValue2, dealerCardValue3, dealerCardValue4);
 
                 displayDealerSumOfCards();
 
@@ -90,27 +92,26 @@ public class FirstAttempt {
         ++cardDraw;
         System.out.println("Dealer's first card is: " + dealerHand1);
     }
-    public static void playerCardsValue() {
-        if (playerHand1.charAt(0) > 47 && playerHand1.charAt(0) < 58 && playerHand1.charAt(1) == ' ') {
-            playerCardValue1 = Integer.parseInt(playerHand1.substring(0,1));
-        } else if (playerHand1.startsWith("10") || playerHand1.startsWith("J") ||
-                playerHand1.startsWith("Q") || playerHand1.startsWith("K")) {
-            playerCardValue1 = 10;
-        } else if (playerHand1.startsWith("A")) {
-            playerCardValue1 = 1;
-            playerCardValue3 = 11;
-        }
-        if (playerHand2.charAt(0) > 47 && playerHand2.charAt(0) < 58 && playerHand2.charAt(1) == ' ') {
-            playerCardValue2 = Integer.parseInt(playerHand2.substring(0,1));
-        } else if (playerHand2.startsWith("10") || playerHand2.startsWith("J") ||
-                playerHand2.startsWith("Q") || playerHand2.startsWith("K")) {
-            playerCardValue2 = 10;
-        } else if (playerHand2.startsWith("A")) {
-            playerCardValue2 = 1;
-            playerCardValue4 = 11;
-        }
+    public static void cardValues(String hand1, String hand2, int cardValue1, int cardValue2, int cardValue3, int cardValue4) {
+    if (hand1.charAt(0) > 47 && hand1.charAt(0) < 58 && hand1.charAt(1) == ' ') {
+        cardValue1 = Integer.parseInt(hand1.substring(0,1));
+    } else if (hand1.startsWith("10") || hand1.startsWith("J") ||
+            hand1.startsWith("Q") || hand1.startsWith("K")) {
+        cardValue1 = 10;
+    } else if (hand1.startsWith("A")) {
+        cardValue1 = 1;
+        cardValue3 = 11;
     }
-
+    if (hand2.charAt(0) > 47 && hand2.charAt(0) < 58 && hand2.charAt(1) == ' ') {
+        cardValue2 = Integer.parseInt(hand2.substring(0,1));
+    } else if (hand2.startsWith("10") || hand2.startsWith("J") ||
+            hand2.startsWith("Q") || hand2.startsWith("K")) {
+        cardValue2 = 10;
+    } else if (hand2.startsWith("A")) {
+        cardValue2 = 1;
+        cardValue4 = 11;
+    }
+}
     public static void displayPlayerSumOfCard() {
         if (playerHand1.startsWith("A") && !playerHand2.startsWith("A")) {
             sumPlayer1 = playerCardValue1 + playerCardValue2;
@@ -127,26 +128,6 @@ public class FirstAttempt {
         } else {
             sumPlayer1 = playerCardValue1 + playerCardValue2;
             System.out.println("The sum of your cards is " + sumPlayer1);
-        }
-    }
-    public static void dealerCardsValue() {
-        if (dealerHand1.charAt(0) > 47 && dealerHand1.charAt(0) < 58 && dealerHand1.charAt(1) == ' ') {
-            dealerCardValue1 = Integer.parseInt(dealerHand1.substring(0,1));
-        } else if (dealerHand1.startsWith("10") || dealerHand1.startsWith("J") ||
-                dealerHand1.startsWith("Q") || dealerHand1.startsWith("K")) {
-            dealerCardValue1 = 10;
-        } else if (dealerHand1.startsWith("A")) {
-            dealerCardValue1 = 1;
-            dealerCardValue3 = 11;
-        }
-        if (dealerHand2.charAt(0) > 47 && dealerHand2.charAt(0) < 58 && dealerHand2.charAt(1) == ' ') {
-            dealerCardValue2 = Integer.parseInt(dealerHand2.substring(0,1));
-        } else if (dealerHand2.startsWith("10") || dealerHand2.startsWith("J") ||
-                dealerHand2.startsWith("Q") || dealerHand2.startsWith("K")) {
-            dealerCardValue2 = 10;
-        } else if (dealerHand2.startsWith("A")) {
-            dealerCardValue2 = 1;
-            dealerCardValue4 = 11;
         }
     }
     public static void displayDealerSumOfCards() {
