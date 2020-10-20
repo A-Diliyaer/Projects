@@ -28,32 +28,37 @@ public class GameRules {
          *            - if YES - START GAME
          *               1. create a DECK of 52 cards, then shuffle it (randomize order)
          *               2. deal 2 cards to player, and 2 cards to dealer
-         *               3. display player cards and dealer cards on the console  (Should only show one of dealer's cards)************************************
-         *               4. display sum of cards for both player and dealer       (Should only show one of dealer's cards)*************************************
+         *               3. display player cards and sum of player's cards on the console
+         *               4. display dealer's first card and the value of the first card
          *               4. ask player "would you like a hit?"
-         *               5. if NO  - compare the sum
+         *               5. if NO  - Check if dealer needs more cards
+         *                             - dealer - you have 2 options:
+         *                                 - either set a fixed value to dealers hand (18) (You can start with this)
+         *                                                     or
+         *                                 - The dealer hits until their sum of card at least 17 (Then upgrade to this)
+         *                         - compare the sum
          *                         - display WINNER
          *                         - END GAME with come again greeting
          *                  if YES - deal 1 card to player
          *                         - recalculate sum
-         *                         - dealer - you have 2 options:
-         *                                              - either set a fixed value to dealers hand (18)
-         *                                              - or make dealer logic that decides if dealer hand
-         *                                                is too low it accepts a hit, if high it doesn't
-         *                                                (- The dealer hits until their sum of card at least 17) ******************************
+         *
          *               6. ask player "would you like another hit?"
          *               7. REPEAT step 5 until:
          *                                  - player decides to stop
-         *                                  - player/dealer sum goes over 21
+         *                                  - player/dealer sum goes over 21 (No need to draw card for dealer, END GAME)
          *                                  - player/dealer hits 21
-         *
-         *              10. DISPLAY RESULT OF EACH HAND
-         *              11. DISPLAY WINNER
-         *              12. END GAME WITH CONGRATZ GREETING
-         *              13. BONUS - add money to the game, make the player and dealer bet
-         *                        - at step 12 ask player "would you like to play another game?"
+         *               8. - Check if dealer needs more cards
+         *                            - either set a fixed value to dealers hand (18)
+         *                              or
+         *                            - The dealer hits until their sum of card at least 17
+         *              9. DISPLAY RESULT OF EACH HAND
+         *              10. DISPLAY WINNER
+         *              11. END GAME WITH CONGRATZ GREETING
+         *              12. BONUS - add money to the game, make the player and dealer bet
+         *                        - implement rules that you know but not listed in this guide
+         *                        - at step 11 ask player "would you like to play another game?"
          *                        - START NEW GAME
-         *                                      - REPEAT ALL STEPS
+         *                        - REPEAT ALL STEPS
          */
 
 }
