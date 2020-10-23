@@ -14,7 +14,6 @@ public class FirstAttempt {
     public static int cardDraw, playerFinal, dealerFinal;
     public static int[] sumsPlayer = new int[2], sumsDealer = new int[2];
 
-
     public static void main(String[] args) {
 
         Scanner scan = new Scanner(System.in);
@@ -40,7 +39,6 @@ public class FirstAttempt {
 
                 System.out.println("Your cards are: " + playerHands[0] + ", " + playerHands[1]);
 
-
                 dealerHands = dealsFirstTwoCards();
 
                 System.out.println("Dealer's card are: " + dealerHands[0]);
@@ -65,7 +63,6 @@ public class FirstAttempt {
                 if (sumsPlayer[0] != 21 && sumsPlayer[1] != 21 && sumsDealer[0] != 21 && sumsDealer[1] != 21) {
                     displaySumOfCards(playerHands[0], playerHands[1], dealerHands[0], dealerCardValue1, dealerCardValue3);
                 }
-
 
                 playerFinal = Math.max(sumsPlayer[0], sumsPlayer[1]);
                 dealerFinal = Math.max(sumsDealer[0], sumsDealer[1]);
