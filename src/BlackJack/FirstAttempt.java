@@ -1,79 +1,83 @@
 package BlackJack;
 
-import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
 public class FirstAttempt {
 
-    private static Scanner scan = new Scanner(System.in);
-    private static Random myRandom = new Random();
-    private static String[] suits={"CLUBS", "DIAMONDS", "SPADES", "HEARTS"};
-    private static String[] cards = {"2","3","4","5","6","7","8","9","10","J","Q","K","A"};
-    private static String[] deck = new String[52];
-    private static String playerHand1, playerHand2, playerAddHand, dealerHand1, dealerHand2, dealerAddHand, answer,answerHit;
-    private static int sumPlayer1, sumPlayer2, playerFinal, dealerFinal, sumDealer1, sumDealer2, cardDraw;
-    private static int playerCardValue1 = 0, playerCardValue2 = 0, playerCardValue3 = 0, playerCardValue4 = 0;
-    private static int dealerCardValue1 = 0, dealerCardValue2 = 0, dealerCardValue3 = 0, dealerCardValue4 = 0;
+    public static final Scanner scan = new Scanner(System.in);
+    public static final Random myRandom = new Random();
+    public static final String[] suits={"CLUBS", "DIAMONDS", "SPADES", "HEARTS"};
+    public static final String[] cards = {"2","3","4","5","6","7","8","9","10","J","Q","K","A"};
+    public static final String[] deck = new String[52];
+    public static String playerAddHand = "", dealerAddHand = "", answerHit;
+    public static int cardDraw, playerFinal, dealerFinal;
+    public static int[] sumsPlayer = new int[2], sumsDealer = new int[2];
 
     public static void main(String[] args) {
 
         Scanner scan = new Scanner(System.in);
         String game = "Blackjack";
+        String answer;
+        String[] playerHands, dealerHands;
+        int dealerCardValue1, dealerCardValue2, dealerCardValue3, dealerCardValue4;
+        int playerCardValue1, playerCardValue2, playerCardValue3, playerCardValue4;
+
         System.out.println("Welcome to BlackJack table #3!");
         do {
-            sumPlayer2 = 0;
-            sumDealer2 = 0;
+            sumsPlayer[1] = 0;
+            sumsDealer[1] = 0;
             cardDraw = 0;
             System.out.println("Would you like to play " + game + "?");
             answer = scan.next();
             if (answer.equalsIgnoreCase("yes")) {
-                createDeckOfCards();  // Creates a deck of 52 cards
+                createDeckOfCards();
 
-                shuffleDeckOfCards();  // Shuffles the deck
+                shuffleDeckOfCards();
 
-                playerFirstTwoCards();  // Deals two cards to the player
+                playerHands = dealsFirstTwoCards();
 
-                dealerFirstTwoCards();  // Deals two cards to the dealer, but only show the first card
+                System.out.println("Your cards are: " + playerHands[0] + ", " + playerHands[1]);
 
-                playerCardsValue();  // Determines the sum of cards for the player
+                dealerHands = dealsFirstTwoCards();
 
-                displayPlayerSumOfCard();  // Displays the sum of cards for the player
+                System.out.println("Dealer's card are: " + dealerHands[0]);
+                System.out.println();
 
-                dealerCardsValue();  // Determines the sum of cards for the dealer
+                cardValues(playerHands[0]);
+                playerCardValue1 = cardValues(playerHands[0])[0];
+                playerCardValue3 = cardValues(playerHands[0])[1];
+                cardValues(playerHands[1]);
+                playerCardValue2 = cardValues(playerHands[1])[0];
+                playerCardValue4 = cardValues(playerHands[1])[1];
+                sumsPlayer = sumOfCards(playerHands[0], playerHands[1], playerCardValue1, playerCardValue2, playerCardValue3, playerCardValue4);
 
-                displayDealerSumOfCards();  // Displays the sum of cards for the dealer
+                cardValues(dealerHands[0]);
+                dealerCardValue1 = cardValues(dealerHands[0])[0];
+                dealerCardValue3 = cardValues(dealerHands[0])[1];
+                cardValues(dealerHands[1]);
+                dealerCardValue2 = cardValues(dealerHands[1])[0];
+                dealerCardValue4 = cardValues(dealerHands[1])[1];
+                sumsDealer = sumOfCards(dealerHands[0], dealerHands[1], dealerCardValue1, dealerCardValue2, dealerCardValue3, dealerCardValue4);
 
-                playerFinal = Math.max(sumPlayer1, sumPlayer2);  // Picks the greater sum of cards and save it
-                dealerFinal = Math.max(sumDealer1, sumDealer2);  // Picks the greater sum of cards and save it
+                if (sumsPlayer[0] != 21 && sumsPlayer[1] != 21 && sumsDealer[0] != 21 && sumsDealer[1] != 21) {
+                    displaySumOfCards(playerHands[0], playerHands[1], dealerHands[0], dealerCardValue1, dealerCardValue3);
+                }
 
+                playerFinal = Math.max(sumsPlayer[0], sumsPlayer[1]);
+                dealerFinal = Math.max(sumsDealer[0], sumsDealer[1]);
 
+                if (sumsPlayer[0] < 21 && sumsPlayer[1] < 21 && sumsDealer[0] < 21 && sumsDealer[1] < 21) {
+                    wouldYouLikeAHit(playerHands[0], playerHands[1], dealerHands[0], dealerHands[1], playerCardValue1, dealerCardValue1);
+                } else if (playerFinal == 21 || dealerFinal == 21){  //this is when the player get 21 right on the first hand of cards
 
-                if (sumPlayer1 < 21 && sumPlayer2 < 21) { // if players first hand of cards if not 21
-                    System.out.println("Would you like a hit?");  // Ask if the player wants a hit
-                    answerHit = scan.next();
-                    if (answerHit.equalsIgnoreCase("yes")) { // if player what a hit
-                        playerHits();
-                    }
-                    if (answerHit.equalsIgnoreCase("no")){ // if player does not want a hit
-                        System.out.println("Dealer's cards are: " + dealerHand1 + ", " + dealerHand2);
-                        dealerHits();
-                        displayResults();
-                    }
-                } else if (playerFinal == 21){  //this is when the player get 21 right on the first hand of cards
-                    dealerHits();
-                    if (playerFinal == dealerFinal) {
-                        displayItIsADraw();
-                    } else {
-                        displayYouWin();
-                    }
+                    displayResults(dealerHands[0], dealerHands[1]);
                 }
             }
             game = "another game";
         } while (answer.equalsIgnoreCase("yes"));
         System.out.println("Next time then! Enjoy your stay at Casino hotel! ");
     }
-
     public static void createDeckOfCards() {
         int i = 0;
         for (String suit : suits) {
@@ -91,100 +95,66 @@ public class FirstAttempt {
             deck[j] = temp;
         }
     }
-    public static void playerFirstTwoCards() {
-        playerHand1 = deck[cardDraw];
+    private static String[] dealsFirstTwoCards() {
+        String hand1 = deck[cardDraw];
         ++cardDraw;
-        playerHand2 = deck[cardDraw];
+        String hand2 = deck[cardDraw];
         ++cardDraw;
-        System.out.println("Your cards are: " + playerHand1 + ", " + playerHand2);
+        return new String[] {hand1, hand2};
     }
-    public static void dealerFirstTwoCards() {
-        dealerHand1 = deck[cardDraw];
-        ++cardDraw;
-        dealerHand2 = deck[cardDraw];
-        ++cardDraw;
-        System.out.println("Dealer's first card is: " + dealerHand1);
+    public static int[] cardValues(String hand1) {
+        int cardValue1 = 0, cardValue3 = 0;
+        if (hand1.charAt(0) > 47 && hand1.charAt(0) < 58 && hand1.charAt(1) == ' ') {
+        cardValue1 = Integer.parseInt(hand1.substring(0,1));
+    } else if (hand1.startsWith("10") || hand1.startsWith("J") ||
+            hand1.startsWith("Q") || hand1.startsWith("K")) {
+        cardValue1 = 10;
+    } else if (hand1.startsWith("A")) {
+        cardValue1 = 1;
+        cardValue3 = 11;
     }
-    public static void playerCardsValue() {
-        if (playerHand1.charAt(0) > 47 && playerHand1.charAt(0) < 58 && playerHand1.charAt(1) == ' ') {
-            playerCardValue1 = Integer.parseInt(playerHand1.substring(0,1));
-        } else if (playerHand1.startsWith("10") || playerHand1.startsWith("J") ||
-                playerHand1.startsWith("Q") || playerHand1.startsWith("K")) {
-            playerCardValue1 = 10;
-        } else if (playerHand1.startsWith("A")) {
-            playerCardValue1 = 1;
-            playerCardValue3 = 11;
-        }
-        if (playerHand2.charAt(0) > 47 && playerHand2.charAt(0) < 58 && playerHand2.charAt(1) == ' ') {
-            playerCardValue2 = Integer.parseInt(playerHand2.substring(0,1));
-        } else if (playerHand2.startsWith("10") || playerHand2.startsWith("J") ||
-                playerHand2.startsWith("Q") || playerHand2.startsWith("K")) {
-            playerCardValue2 = 10;
-        } else if (playerHand2.startsWith("A")) {
-            playerCardValue2 = 1;
-            playerCardValue4 = 11;
-        }
-    }
-    public static void displayPlayerSumOfCard() {
-        if (playerHand1.startsWith("A") && !playerHand2.startsWith("A")) {
-            sumPlayer1 = playerCardValue1 + playerCardValue2;
-            sumPlayer2 = playerCardValue3 + playerCardValue2;
-            System.out.println("The sum of your cards is " + sumPlayer1 + "/" + sumPlayer2);
-        } else if (!playerHand1.startsWith("A") && playerHand2.startsWith("A")) {
-            sumPlayer1 = playerCardValue1 + playerCardValue2;
-            sumPlayer2 = playerCardValue1 + playerCardValue4;
-            System.out.println("The sum of your cards is " + sumPlayer1 + "/" + sumPlayer2);
-        } else if (playerHand1.startsWith("A") && playerHand2.startsWith("A")) {
-            sumPlayer1 = playerCardValue1 + playerCardValue2;
-            sumPlayer2 = playerCardValue1 + playerCardValue4;
-            System.out.println("The sum of your cards is " + sumPlayer1 + "/" + sumPlayer2);
+    return new int[] {cardValue1, cardValue3};
+}
+    public static int[] sumOfCards(String hand1, String hand2, int cardValue1, int cardValue2, int cardValue3, int cardValue4) {
+        int sum1;
+        int sum2;
+        if (hand1.startsWith("A") && !hand2.startsWith("A")) {
+            sum1 = cardValue1 + cardValue2;
+            sum2 = cardValue3 + cardValue2;
         } else {
-            sumPlayer1 = playerCardValue1 + playerCardValue2;
-            System.out.println("The sum of your cards is " + sumPlayer1);
+            sum1 = cardValue1 + cardValue2;
+            sum2 = cardValue1 + cardValue4;
         }
+        return new int[] {sum1, sum2};
     }
-    public static void dealerCardsValue() {
-        if (dealerHand1.charAt(0) > 47 && dealerHand1.charAt(0) < 58 && dealerHand1.charAt(1) == ' ') {
-            dealerCardValue1 = Integer.parseInt(dealerHand1.substring(0,1));
-        } else if (dealerHand1.startsWith("10") || dealerHand1.startsWith("J") ||
-                dealerHand1.startsWith("Q") || dealerHand1.startsWith("K")) {
-            dealerCardValue1 = 10;
-        } else if (dealerHand1.startsWith("A")) {
-            dealerCardValue1 = 1;
-            dealerCardValue3 = 11;
-        }
-        if (dealerHand2.charAt(0) > 47 && dealerHand2.charAt(0) < 58 && dealerHand2.charAt(1) == ' ') {
-            dealerCardValue2 = Integer.parseInt(dealerHand2.substring(0,1));
-        } else if (dealerHand2.startsWith("10") || dealerHand2.startsWith("J") ||
-                dealerHand2.startsWith("Q") || dealerHand2.startsWith("K")) {
-            dealerCardValue2 = 10;
-        } else if (dealerHand2.startsWith("A")) {
-            dealerCardValue2 = 1;
-            dealerCardValue4 = 11;
-        }
-    }
-    public static void displayDealerSumOfCards() {
-        if (dealerHand1.startsWith("A") && !dealerHand2.startsWith("A")) {
-            sumDealer1 = dealerCardValue1 + dealerCardValue2;
-            sumDealer2 = dealerCardValue3 + dealerCardValue2;
-            System.out.println("The sum of dealer's card is " + dealerCardValue1 + "/" + dealerCardValue3);
-        } else if (!dealerHand1.startsWith("A") && dealerHand2.startsWith("A")) {
-            sumDealer1 = dealerCardValue1 + dealerCardValue2;
-            sumDealer2 = dealerCardValue1 + dealerCardValue4;
-            System.out.println("The sum of dealer's cards is " + dealerCardValue1);
-        } else if (dealerHand1.startsWith("A") && dealerHand2.startsWith("A")) {
-            sumDealer1 = dealerCardValue1 + dealerCardValue2;
-            sumDealer2 = dealerCardValue1 + dealerCardValue4;
-            System.out.println("The sum of dealer's cards is " + dealerCardValue1 + "/" + dealerCardValue3);
+    public static void displaySumOfCards(String hand1, String hand2, String hand3, int cardValue1, int cardValue3) {
+        if (hand1.startsWith("A") || hand2.startsWith("A")) {
+            System.out.println("The sum of your cards is " + sumsPlayer[0] + "/" + sumsPlayer[1]);
         } else {
-            sumDealer1 = dealerCardValue1 + dealerCardValue2;
-            System.out.println("The sum of dealer's card is " + dealerCardValue1);
+            System.out.println("The sum of your cards is " + sumsPlayer[0]);
+        }
+        if (hand3.startsWith("A")) {
+            System.out.println("The sum of dealer's card is " + cardValue1 + "/" + cardValue3 + "\n");
+        } else {
+            System.out.println("The sum of dealer's cards is " + cardValue1 + "\n");
+        }
+
+    }
+    public static void wouldYouLikeAHit(String playerHand1, String playerHand2, String dealerHand1, String dealerHand2, int playerCardValue1, int dealerCardValue1) {
+        System.out.println("Would you like a hit?");  // Ask if the player wants a hit
+        answerHit = scan.next();
+        if (answerHit.equalsIgnoreCase("yes")) { // if player what a hit
+            playerHits(playerHand1, playerHand2, playerCardValue1);
+        }
+        if (answerHit.equalsIgnoreCase("no")){ // if player does not want a hit
+            dealerHits(dealerHand1, dealerHand2, dealerCardValue1);
+            displayResults(dealerHand1, dealerHand2);
         }
     }
-    public static void playerHits() {
+    public static void playerHits(String playerHand1, String playerHand2, int playerCardValue1) {
         playerAddHand = "";
         do {
-            System.out.println("The player gets one more card");
+            System.out.println("\n" + "The player gets one more card" + "\n");
             playerAddHand += ", " + deck[cardDraw];
             if (deck[cardDraw].charAt(0) > 47 && deck[cardDraw].charAt(0) < 58 && deck[cardDraw].charAt(1) == ' ') {
                 playerCardValue1 = Integer.parseInt(deck[cardDraw].substring(0,1));
@@ -199,11 +169,11 @@ public class FirstAttempt {
                 }
             }
             playerFinal += playerCardValue1;
-            if ((playerHand1.startsWith("A") || playerHand2.startsWith("A")) && playerFinal > 21) {
-                playerFinal = sumPlayer1 + playerCardValue1;
+            if ((playerHand1.startsWith("A") || playerHand2.startsWith("A")) && playerFinal > 21 && playerAddHand.length() < 13) {
+                playerFinal = sumsPlayer[0] + playerCardValue1;
             }
             System.out.println(playerHand1 + ", " + playerHand2 + playerAddHand);
-            System.out.println(playerFinal);
+            System.out.println("Your new sum is " + playerFinal + "\n");
             ++cardDraw;
             if (playerFinal < 21) {
                 System.out.println("Would you like another hit?");
@@ -214,9 +184,10 @@ public class FirstAttempt {
 
         } while (answerHit.equalsIgnoreCase("yes"));
     }
-    public static void dealerHits() {
+    public static void dealerHits(String dealerHand1, String dealerHand2, int dealerCardValue1) {
+        System.out.println("Dealer's cards are: " + dealerHand1 + ", " + dealerHand2 + "\n");
         dealerAddHand = "";
-        while (dealerFinal < 17) {
+        while (dealerFinal < 17 && playerFinal < 22) {
             System.out.println("The dealer draws one more card");
             dealerAddHand += ", " + deck[cardDraw];
             if (deck[cardDraw].charAt(0) > 47 && deck[cardDraw].charAt(0) < 58 && deck[cardDraw].charAt(1) == ' ') {
@@ -232,17 +203,20 @@ public class FirstAttempt {
                 }
             }
             dealerFinal += dealerCardValue1;
-            if ((dealerHand1.startsWith("A") || dealerHand2.startsWith("A")) && dealerFinal > 21) {
+            if ((dealerHand1.startsWith("A") || dealerHand2.startsWith("A")) && dealerFinal > 21&& dealerAddHand.length() < 13) {
                 dealerFinal -= 10;
             }
             System.out.println(dealerHand1 + ", " + dealerHand2 + dealerAddHand);
-            System.out.println(dealerFinal);
+            System.out.println("Dealer's new sum is " + dealerFinal + "\n");
             ++cardDraw;
 
         }
     }
-    public static void displayResults() {
-        if (playerFinal > dealerFinal || dealerFinal > 21) {
+    public static void displayResults(String dealerHand1, String dealerHand2) {
+        if (playerAddHand.length() == 0 && dealerAddHand.length() == 0) {
+            System.out.println("Dealer's cards are: " + dealerHand1 + ", " + dealerHand2 + dealerAddHand + "\n");
+        }
+        if ((playerFinal > dealerFinal || dealerFinal > 21) && playerFinal < 22) {
             displayYouWin();
         } else if (playerFinal == dealerFinal) {
             displayItIsADraw();
@@ -252,20 +226,27 @@ public class FirstAttempt {
     }
     public static void displayYouWin() {
         System.out.println("The sum of your cards is " + playerFinal);
-        System.out.println("Dealer's cards are: " + dealerHand1 + ", " + dealerHand2 + dealerAddHand);
         System.out.println("The sum of dealer's cards is " + dealerFinal);
-        System.out.println("Winner! Winner! Chicken Dinner!");
+        if (sumsPlayer[0] == 21 || sumsPlayer[1] == 21) {
+            System.out.println("BlackJack! You Win!");
+        } else {
+            System.out.println("Winner! Winner! Chicken Dinner!");
+        }
+
     }
     public static void displayItIsADraw() {
         System.out.println("The sum of your cards is " + playerFinal);
-        System.out.println("Dealer's cards are: " + dealerHand1 + ", " + dealerHand2 + dealerAddHand);
         System.out.println("The sum of dealer's cards is " + dealerFinal);
         System.out.println("It's a draw!");
     }
     public static void displayYouLose() {
         System.out.println("The sum of your cards is " + playerFinal);
-        System.out.println("Dealer's cards are: " + dealerHand1 + ", " + dealerHand2 + dealerAddHand);
         System.out.println("The sum of dealer's cards is " + dealerFinal);
-        System.out.println("You lose!");
+        if (sumsDealer[0] == 21 || sumsDealer[1] == 21) {
+            System.out.println("Dealer got BlackJack! You lose!");
+        } else {
+            System.out.println("You lose!");
+        }
+
     }
 }
