@@ -5,13 +5,14 @@ import java.util.Arrays;
 public class attempt3 {
     public static void main(String[] args) {
         int day = 0;
-        int[] inhabitants = {0,110,0,96,0,100,0,88,0};
-        int[] array = new int[inhabitants.length];
-        for (int i = 0; i < array.length; i++) {
-            array[i] = 0;
+        int[] inhabitants = {0,0,0,0,12,0,0,0};
+        int[] arr = new int[inhabitants.length];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = 0;
         }
+
         System.out.println("Day " + day + " " + Arrays.toString(inhabitants));
-        while(!Arrays.toString(inhabitants).equals(Arrays.toString(array))) {
+        while(!Arrays.equals(arr,inhabitants)) {
             day++;
             int zeroCount = 0;
             for (int i = 0; i < inhabitants.length; i++) {
