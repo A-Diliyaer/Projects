@@ -1,9 +1,6 @@
 package PokerCodeAttempts;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class FirstAttempt {
 
@@ -18,13 +15,30 @@ public class FirstAttempt {
     static List<String> player5Cards = new ArrayList<>();
     static List<String> communityCards = new ArrayList<>();
     static List<String> allCards = new ArrayList<>();
+    static String player1CardRank = "";
+    static String player2CardRank = "";
+    static String player3CardRank = "";
+    static String player4CardRank = "";
+    static String player5CardRank = "";
 
     public static void main(String[] args) throws InterruptedException {
-        startGame();
-        holeCards();
-        flop();
-        river();
-        turn();
+        Scanner scan = new Scanner(System.in);
+        String enter;
+        do {  //   LOOP ONLY FOR TESTING
+            player1Cards.clear();
+            player2Cards.clear();
+            player3Cards.clear();
+            player4Cards.clear();
+            player5Cards.clear();
+            communityCards.clear();
+            deck.clear();
+            startGame();
+            holeCards();
+            flop();
+            river();
+            turn();
+            enter = scan.nextLine();
+        } while (enter.equals(""));
     }
 
     public static void startGame() {
@@ -48,24 +62,24 @@ public class FirstAttempt {
 
     public static void holeCards() throws InterruptedException {
         player1Cards.add(dealACard());
+        player2Cards.add(dealACard());
+        player3Cards.add(dealACard());
+        player4Cards.add(dealACard());
+        player5Cards.add(dealACard());
         player1Cards.add(dealACard());
-        Thread.sleep(1000);
+        player2Cards.add(dealACard());
+        player3Cards.add(dealACard());
+        player4Cards.add(dealACard());
+        player5Cards.add(dealACard());
+        Thread.sleep(0);
         System.out.println("player1Cards = " + player1Cards);
-        player2Cards.add(dealACard());
-        player2Cards.add(dealACard());
-        Thread.sleep(1000);
+        Thread.sleep(0);
         System.out.println("player2Cards = " + player2Cards);
-        player3Cards.add(dealACard());
-        player3Cards.add(dealACard());
-        Thread.sleep(1000);
+        Thread.sleep(0);
         System.out.println("player3Cards = " + player3Cards);
-        player4Cards.add(dealACard());
-        player4Cards.add(dealACard());
-        Thread.sleep(1000);
+        Thread.sleep(0);
         System.out.println("player4Cards = " + player4Cards);
-        player5Cards.add(dealACard());
-        player5Cards.add(dealACard());
-        Thread.sleep(1000);
+        Thread.sleep(0);
         System.out.println("player5Cards = " + player5Cards);
     }
 
@@ -73,8 +87,18 @@ public class FirstAttempt {
         communityCards.add(dealACard());
         communityCards.add(dealACard());
         communityCards.add(dealACard());
-        Thread.sleep(1000);
+        Thread.sleep(0);
         System.out.println("communityCards = " + communityCards);
+        player1CardRank = cardRankCheck(player1Cards);
+        player2CardRank = cardRankCheck(player2Cards);
+        player3CardRank = cardRankCheck(player3Cards);
+        player4CardRank = cardRankCheck(player4Cards);
+        player5CardRank = cardRankCheck(player5Cards);
+        find5Cards(player1Cards,player1CardRank);
+        find5Cards(player2Cards,player2CardRank);
+        find5Cards(player3Cards,player3CardRank);
+        find5Cards(player4Cards,player4CardRank);
+        find5Cards(player5Cards,player5CardRank);
         System.out.println("player1Cards = " + cardRankCheck(player1Cards) + " " + player1Cards);
         System.out.println("player2Cards = " + cardRankCheck(player2Cards) + " " + player2Cards);
         System.out.println("player3Cards = " + cardRankCheck(player3Cards) + " " + player3Cards);
@@ -84,8 +108,18 @@ public class FirstAttempt {
 
     public static void river() throws InterruptedException {
         communityCards.add(dealACard());
-        Thread.sleep(1000);
+        Thread.sleep(0);
         System.out.println("communityCards = " + communityCards);
+        player1CardRank = cardRankCheck(player1Cards);
+        player2CardRank = cardRankCheck(player2Cards);
+        player3CardRank = cardRankCheck(player3Cards);
+        player4CardRank = cardRankCheck(player4Cards);
+        player5CardRank = cardRankCheck(player5Cards);
+        find5Cards(player1Cards,player1CardRank);
+        find5Cards(player2Cards,player2CardRank);
+        find5Cards(player3Cards,player3CardRank);
+        find5Cards(player4Cards,player4CardRank);
+        find5Cards(player5Cards,player5CardRank);
         System.out.println("player1Cards = " + cardRankCheck(player1Cards) + " " + player1Cards);
         System.out.println("player2Cards = " + cardRankCheck(player2Cards) + " " + player2Cards);
         System.out.println("player3Cards = " + cardRankCheck(player3Cards) + " " + player3Cards);
@@ -101,6 +135,7 @@ public class FirstAttempt {
         allCards.addAll(playerCards);
         allCards.addAll(communityCards);
         List<Integer> values = new ArrayList<>();
+        List<Integer> sortedValues = new ArrayList<>(values);
         for (String card : allCards) {
             switch (card.charAt(0)) {
                 case '2' -> values.add(2);
@@ -118,8 +153,8 @@ public class FirstAttempt {
                 case 'A' -> values.add(14);
             }
         }
-        Collections.sort(values);
-        if (values.containsAll(Arrays.asList(2, 3, 4, 5)) && values.contains(14)) {
+        Collections.sort(sortedValues);
+        if (sortedValues.containsAll(Arrays.asList(2, 3, 4, 5)) && sortedValues.contains(14)) {
             values.set(values.indexOf(14), 1);
         }
         return values;
@@ -129,40 +164,48 @@ public class FirstAttempt {
         allCards.clear();
         List<Integer> values = new ArrayList<>(cardValue(playerCards));
         List<Integer> frequencyOfCards = new ArrayList<>();
+        List<String> suits = new ArrayList<>();
         int straightCount = 0, suitCount = 0, doubleCount = 0;
-        ;
         String cardRank = "";
+        Collections.sort(values);
         for (int i = 0; i < allCards.size() - 1; i++) {
-            if (allCards.get(i).charAt(1) == allCards.get(i + 1).charAt(1)) {
-                suitCount++;
-            }
             if (values.get(i) + 1 == values.get(i + 1)) {
                 straightCount++;
+            } else if (straightCount != 5 && values.get(i) + 1 != values.get(i + 1)){
+                straightCount--;
+            }
+        }
+        for (String allCard : allCards) {
+            suits.add(allCard.substring(allCard.length()-1));
+        }
+        for (int i = 0; i < suits.size(); i++) {
+            String suit = suits.get(i);
+            if (Collections.frequency(suits, suit) == 5) {
+                suitCount = 5;
+                break;
             }
         }
         for (Integer value : values) {
             frequencyOfCards.add(Collections.frequency(values, value));
-        }
-        for (Integer count : frequencyOfCards) {
-            if (count == 2) {
+            if (Collections.frequency(values, value) == 2) {
                 doubleCount++;
             }
         }
-        if (straightCount == 5) {
-            cardRank = "Straight";
-            if (suitCount == 5) {
-                cardRank += " Flash";
-            }
-        } else if (suitCount == 5) {
-            cardRank = "Flash";
+        if (values.containsAll(Arrays.asList(10,11,12,13,14)) && suitCount == 5) {
+            cardRank = "Royal Flush";
+        } else if (straightCount == 5 && suitCount == 5) {
+            cardRank = "Straight Flush";
         } else if (frequencyOfCards.contains(4)) {
             cardRank = "Four Of A Kind";
+        } else if (frequencyOfCards.contains(3) && frequencyOfCards.contains(2)) {
+            cardRank = "Full House";
+        } else if (suitCount == 5) {
+            cardRank = "Flush";
+        } else if (straightCount == 5) {
+            cardRank = "Straight";
         } else if (frequencyOfCards.contains(3)) {
             cardRank = "Three Of A Kind";
-            if (frequencyOfCards.contains(2)) {
-                cardRank = "Full House";
-            }
-        } else if (doubleCount == 4) {
+        } else if (doubleCount >= 4) {
             cardRank = "Two Pair";
         } else if (doubleCount == 2) {
             cardRank = "One Pair";
@@ -171,6 +214,48 @@ public class FirstAttempt {
         }
 
         return cardRank;
+    }
+
+    public static void find5Cards(List<String> playerCards, String playerCardRank) {
+        List<Integer> values = new ArrayList<>(cardValue(playerCards));
+        List<String> highRankCards = new ArrayList<>(allCards);
+        if (playerCardRank.equals("Royal Flush")) {
+
+        } else if (playerCardRank.equals("Straight Flush")) {
+
+        } else if (playerCardRank.equals("Four Of A Kind")) {
+
+        } else if (playerCardRank.equals("Full House")) {
+
+        } else if (playerCardRank.equals("Flush")) {
+
+        } else if (playerCardRank.equals("Straight")) {
+
+        } else if (playerCardRank.equals("Three Of A Kind")) {
+
+        } else if (playerCardRank.equals("Two Pair")) {
+
+        } else if (playerCardRank.equals("One Pair")) {
+
+        } else if (playerCardRank.equals("High Card")) {
+            if (communityCards.size() == 5) {
+                highRankCards.remove(0);
+                highRankCards.remove(1);
+                System.out.println(highRankCards);
+            } else if (communityCards.size() == 4) {
+                highRankCards.remove(0);
+                System.out.println(highRankCards);
+            } else {
+                System.out.println(highRankCards);
+            }
+        }
+        highRankCards.clear();
+    }
+
+    public static void winner() {
+        List<String> cardRanks = Arrays.asList("Royal Flush","Straight Flush","Four Of A Kind","Full House","Flush","Straight","Three Of A Kind","Two Pair","One Pair","High Card");
+        List<Integer> rankIndex = new ArrayList<>();
+
     }
 
     public static String dealACard() {
