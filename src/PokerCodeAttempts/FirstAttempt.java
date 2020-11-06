@@ -20,6 +20,7 @@ public class FirstAttempt {
     static String player3CardRank = "";
     static String player4CardRank = "";
     static String player5CardRank = "";
+    static List<String> player1HighestCards = new ArrayList<>();
 
     public static void main(String[] args) throws InterruptedException {
         Scanner scan = new Scanner(System.in);
@@ -94,16 +95,11 @@ public class FirstAttempt {
         player3CardRank = cardRankCheck(player3Cards);
         player4CardRank = cardRankCheck(player4Cards);
         player5CardRank = cardRankCheck(player5Cards);
-        find5Cards(player1Cards,player1CardRank);
-        find5Cards(player2Cards,player2CardRank);
-        find5Cards(player3Cards,player3CardRank);
-        find5Cards(player4Cards,player4CardRank);
-        find5Cards(player5Cards,player5CardRank);
-        System.out.println("player1Cards = " + cardRankCheck(player1Cards) + " " + player1Cards);
-        System.out.println("player2Cards = " + cardRankCheck(player2Cards) + " " + player2Cards);
-        System.out.println("player3Cards = " + cardRankCheck(player3Cards) + " " + player3Cards);
-        System.out.println("player4Cards = " + cardRankCheck(player4Cards) + " " + player4Cards);
-        System.out.println("player5Cards = " + cardRankCheck(player5Cards) + " " + player5Cards);
+        System.out.println("player1Cards = " + player1CardRank + " " + find5Cards(player1Cards,player1CardRank));
+        System.out.println("player2Cards = " + player2CardRank + " " + find5Cards(player2Cards,player2CardRank));
+        System.out.println("player3Cards = " + player3CardRank + " " + find5Cards(player3Cards,player3CardRank));
+        System.out.println("player4Cards = " + player4CardRank + " " + find5Cards(player4Cards,player4CardRank));
+        System.out.println("player5Cards = " + player5CardRank + " " + find5Cards(player5Cards,player5CardRank));
     }
 
     public static void river() throws InterruptedException {
@@ -115,16 +111,11 @@ public class FirstAttempt {
         player3CardRank = cardRankCheck(player3Cards);
         player4CardRank = cardRankCheck(player4Cards);
         player5CardRank = cardRankCheck(player5Cards);
-        find5Cards(player1Cards,player1CardRank);
-        find5Cards(player2Cards,player2CardRank);
-        find5Cards(player3Cards,player3CardRank);
-        find5Cards(player4Cards,player4CardRank);
-        find5Cards(player5Cards,player5CardRank);
-        System.out.println("player1Cards = " + cardRankCheck(player1Cards) + " " + player1Cards);
-        System.out.println("player2Cards = " + cardRankCheck(player2Cards) + " " + player2Cards);
-        System.out.println("player3Cards = " + cardRankCheck(player3Cards) + " " + player3Cards);
-        System.out.println("player4Cards = " + cardRankCheck(player4Cards) + " " + player4Cards);
-        System.out.println("player5Cards = " + cardRankCheck(player5Cards) + " " + player5Cards);
+        System.out.println("player1Cards = " + cardRankCheck(player1Cards) + " " + find5Cards(player1Cards,player1CardRank));
+        System.out.println("player2Cards = " + cardRankCheck(player2Cards) + " " + find5Cards(player2Cards,player2CardRank));
+        System.out.println("player3Cards = " + cardRankCheck(player3Cards) + " " + find5Cards(player3Cards,player3CardRank));
+        System.out.println("player4Cards = " + cardRankCheck(player4Cards) + " " + find5Cards(player4Cards,player4CardRank));
+        System.out.println("player5Cards = " + cardRankCheck(player5Cards) + " " + find5Cards(player5Cards,player5CardRank));
     }
 
     public static void turn() throws InterruptedException {
@@ -216,9 +207,12 @@ public class FirstAttempt {
         return cardRank;
     }
 
-    public static void find5Cards(List<String> playerCards, String playerCardRank) {
+    public static List<String> find5Cards(List<String> playerCards, String playerCardRank) {
+        allCards.clear();
         List<Integer> values = new ArrayList<>(cardValue(playerCards));
-        List<String> highRankCards = new ArrayList<>(allCards);
+        List<Integer> copyValues = new ArrayList<>(values);
+        List<Integer> newValues = new ArrayList<>();
+        List<String> highRankCards = new ArrayList<>();
         if (playerCardRank.equals("Royal Flush")) {
 
         } else if (playerCardRank.equals("Straight Flush")) {
@@ -236,20 +230,76 @@ public class FirstAttempt {
         } else if (playerCardRank.equals("Two Pair")) {
 
         } else if (playerCardRank.equals("One Pair")) {
+            if (communityCards.size() == 5) {
+                //highRankCards.addAll(sortCards(allCards, values));
+                Collections.sort(copyValues);
+                for (Integer value : copyValues) {
+                    if (Collections.frequency(values,value) == 2) {
+                        newValues.add(value);
+                        copyValues.remove(value);
+                        newValues.add(copyValues.size()-1);
+                        newValues.add(copyValues.size()-2);
+                        newValues.add(copyValues.size()-3);
+                        break;
+                    }
+                }
+                highRankCards.addAll(sortCards(removeExtraCards(allCards, values, copyValues), newValues));
+            } else if (communityCards.size() == 4) {
+                highRankCards.addAll(sortCards(allCards, values));
+            } else  {
+                highRankCards.addAll(sortCards(allCards, values));
+            }
 
         } else if (playerCardRank.equals("High Card")) {
             if (communityCards.size() == 5) {
+                highRankCards.addAll(sortCards(allCards, values));
                 highRankCards.remove(0);
                 highRankCards.remove(1);
-                System.out.println(highRankCards);
             } else if (communityCards.size() == 4) {
+                highRankCards.addAll(sortCards(allCards, values));
                 highRankCards.remove(0);
-                System.out.println(highRankCards);
             } else {
-                System.out.println(highRankCards);
+                highRankCards.addAll(sortCards(allCards, values));
             }
         }
-        highRankCards.clear();
+        return highRankCards;
+    }
+
+    public static List<String> removeExtraCards(List<String> cards, List<Integer> originalValues, List<Integer> shortValues) {
+        for (Integer value : originalValues) {
+            if (!shortValues.contains(value)) {
+                cards.remove(originalValues.indexOf(value));
+            }
+        }
+        return cards;
+    }
+
+    public static List<String> sortCards(List<String> cards, List<Integer> values) {
+        Collections.sort(values);
+        for (String card : cards) {
+            switch (card.charAt(0)) {
+                case '2' -> Collections.swap(cards,cards.indexOf(card), values.indexOf(2));
+                case '3' -> Collections.swap(cards,cards.indexOf(card), values.indexOf(3));
+                case '4' -> Collections.swap(cards,cards.indexOf(card), values.indexOf(4));
+                case '5' -> Collections.swap(cards,cards.indexOf(card), values.indexOf(5));
+                case '6' -> Collections.swap(cards,cards.indexOf(card), values.indexOf(6));
+                case '7' -> Collections.swap(cards,cards.indexOf(card), values.indexOf(7));
+                case '8' -> Collections.swap(cards,cards.indexOf(card), values.indexOf(8));
+                case '9' -> Collections.swap(cards,cards.indexOf(card), values.indexOf(9));
+                case '1' -> Collections.swap(cards,cards.indexOf(card), values.indexOf(10));
+                case 'J' -> Collections.swap(cards,cards.indexOf(card), values.indexOf(11));
+                case 'Q' -> Collections.swap(cards,cards.indexOf(card), values.indexOf(12));
+                case 'K' -> Collections.swap(cards,cards.indexOf(card), values.indexOf(13));
+                case 'A' -> {
+                    if (values.contains(14)) {
+                        Collections.swap(cards,cards.indexOf(card), values.indexOf(14));
+                    } else if (values.contains(1)) {
+                        Collections.swap(cards,cards.indexOf(card), values.indexOf(1));
+                    }
+                }
+            }
+        }
+        return cards;
     }
 
     public static void winner() {
