@@ -215,7 +215,9 @@ public class FirstAttempt {
         List<String> highRankCards = new ArrayList<>();
         Collections.sort(copyValues);
         if (playerCardRank.equals("Royal Flush")) {
+            for (int i = 0; i < 5; i++) {
 
+            }
         } else if (playerCardRank.equals("Straight Flush")) {
 
         } else if (playerCardRank.equals("Four Of A Kind")) {
