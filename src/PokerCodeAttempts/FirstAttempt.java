@@ -213,39 +213,142 @@ public class FirstAttempt {
         List<Integer> copyValues = new ArrayList<>(values);
         List<Integer> newValues = new ArrayList<>();
         List<String> highRankCards = new ArrayList<>();
+        Collections.sort(copyValues);
         if (playerCardRank.equals("Royal Flush")) {
 
         } else if (playerCardRank.equals("Straight Flush")) {
 
         } else if (playerCardRank.equals("Four Of A Kind")) {
-
+            if (communityCards.size() == 5) {
+                for (Integer value : values) {
+                    if (Collections.frequency(values,value) == 4) {
+                        newValues.add(value);
+                        copyValues.remove(value);
+                    }
+                }
+                newValues.add(copyValues.get(copyValues.size()-1));
+                Collections.sort(newValues);
+                highRankCards.addAll(sortCards(removeExtraCards(allCards, values, newValues), newValues));
+            } else if (communityCards.size() == 4) {
+                for (Integer value : values) {
+                    if (Collections.frequency(values,value) == 4) {
+                        newValues.add(value);
+                        copyValues.remove(value);
+                    }
+                }
+                newValues.add(copyValues.get(copyValues.size()-1));
+                Collections.sort(newValues);
+                highRankCards.addAll(sortCards(removeExtraCards(allCards, values, newValues), newValues));
+            } else  {
+                highRankCards.addAll(sortCards(allCards, values));
+            }
         } else if (playerCardRank.equals("Full House")) {
-
+            if (communityCards.size() == 5) {
+                for (Integer value : values) {
+                    if (Collections.frequency(values,value) == 3) {
+                        newValues.add(value);
+                        copyValues.remove(value);
+                    } else if (Collections.frequency(values,value) == 2) {
+                        newValues.add(value);
+                        copyValues.remove(value);
+                    }
+                }
+                Collections.sort(newValues);
+                highRankCards.addAll(sortCards(removeExtraCards(allCards, values, newValues), newValues));
+            } else if (communityCards.size() == 4) {
+                for (Integer value : values) {
+                    if (Collections.frequency(values,value) == 3) {
+                        newValues.add(value);
+                        copyValues.remove(value);
+                    } else if (Collections.frequency(values,value) == 2) {
+                        newValues.add(value);
+                        copyValues.remove(value);
+                    }
+                }
+                Collections.sort(newValues);
+                highRankCards.addAll(sortCards(removeExtraCards(allCards, values, newValues), newValues));
+            } else  {
+                highRankCards.addAll(sortCards(allCards, values));
+            }
         } else if (playerCardRank.equals("Flush")) {
 
         } else if (playerCardRank.equals("Straight")) {
 
         } else if (playerCardRank.equals("Three Of A Kind")) {
-
-        } else if (playerCardRank.equals("Two Pair")) {
-
-        } else if (playerCardRank.equals("One Pair")) {
             if (communityCards.size() == 5) {
-                //highRankCards.addAll(sortCards(allCards, values));
-                Collections.sort(copyValues);
-                for (Integer value : copyValues) {
+                for (Integer value : values) {
+                    if (Collections.frequency(values,value) == 3) {
+                        newValues.add(value);
+                        copyValues.remove(value);
+                    }
+                }
+                newValues.add(copyValues.get(copyValues.size()-2));
+                newValues.add(copyValues.get(copyValues.size()-1));
+                Collections.sort(newValues);
+                highRankCards.addAll(sortCards(removeExtraCards(allCards, values, newValues), newValues));
+            } else if (communityCards.size() == 4) {
+                for (Integer value : values) {
+                    if (Collections.frequency(values,value) == 3) {
+                        newValues.add(value);
+                        copyValues.remove(value);
+                    }
+                }
+                newValues.add(copyValues.get(copyValues.size()-2));
+                newValues.add(copyValues.get(copyValues.size()-1));
+                Collections.sort(newValues);
+                highRankCards.addAll(sortCards(removeExtraCards(allCards, values, newValues), newValues));
+            } else  {
+                highRankCards.addAll(sortCards(allCards, values));
+            }
+        } else if (playerCardRank.equals("Two Pair")) {
+            if (communityCards.size() == 5) {
+                for (Integer value : values) {
                     if (Collections.frequency(values,value) == 2) {
                         newValues.add(value);
                         copyValues.remove(value);
-                        newValues.add(copyValues.size()-1);
-                        newValues.add(copyValues.size()-2);
-                        newValues.add(copyValues.size()-3);
-                        break;
                     }
                 }
-                highRankCards.addAll(sortCards(removeExtraCards(allCards, values, copyValues), newValues));
+                newValues.add(copyValues.get(copyValues.size()-1));
+                Collections.sort(newValues);
+                highRankCards.addAll(sortCards(removeExtraCards(allCards, values, newValues), newValues));
             } else if (communityCards.size() == 4) {
+                for (Integer value : values) {
+                    if (Collections.frequency(values,value) == 2) {
+                        newValues.add(value);
+                        copyValues.remove(value);
+                    }
+                }
+                newValues.add(copyValues.get(copyValues.size()-1));
+                Collections.sort(newValues);
+                highRankCards.addAll(sortCards(removeExtraCards(allCards, values, newValues), newValues));
+            } else  {
                 highRankCards.addAll(sortCards(allCards, values));
+            }
+        } else if (playerCardRank.equals("One Pair")) {
+            if (communityCards.size() == 5) {
+                for (Integer value : values) {
+                    if (Collections.frequency(values,value) == 2) {
+                        newValues.add(value);
+                        copyValues.remove(value);
+                    }
+                }
+                newValues.add(copyValues.get(copyValues.size()-3));
+                newValues.add(copyValues.get(copyValues.size()-2));
+                newValues.add(copyValues.get(copyValues.size()-1));
+                Collections.sort(newValues);
+                highRankCards.addAll(sortCards(removeExtraCards(allCards, values, newValues), newValues));
+            } else if (communityCards.size() == 4) {
+                for (Integer value : values) {
+                    if (Collections.frequency(values,value) == 2) {
+                        newValues.add(value);
+                        copyValues.remove(value);
+                    }
+                }
+                newValues.add(copyValues.get(copyValues.size()-3));
+                newValues.add(copyValues.get(copyValues.size()-2));
+                newValues.add(copyValues.get(copyValues.size()-1));
+                Collections.sort(newValues);
+                highRankCards.addAll(sortCards(removeExtraCards(allCards, values, newValues), newValues));
             } else  {
                 highRankCards.addAll(sortCards(allCards, values));
             }
@@ -266,10 +369,14 @@ public class FirstAttempt {
     }
 
     public static List<String> removeExtraCards(List<String> cards, List<Integer> originalValues, List<Integer> shortValues) {
+        List<Integer> extraValuesToRemove = new ArrayList<>();
         for (Integer value : originalValues) {
             if (!shortValues.contains(value)) {
-                cards.remove(originalValues.indexOf(value));
+                extraValuesToRemove.add(value);
             }
+        }
+        for (int i = 0; i < extraValuesToRemove.size(); i++) {
+            cards.remove(originalValues.indexOf(extraValuesToRemove.get(i))-i);
         }
         return cards;
     }
