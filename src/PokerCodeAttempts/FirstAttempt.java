@@ -216,7 +216,6 @@ public class FirstAttempt {
         Collections.sort(copyValues);
         if (playerCardRank.equals("Royal Flush")) {
             for (int i = 0; i < 5; i++) {
-
             }
         } else if (playerCardRank.equals("Straight Flush")) {
 
