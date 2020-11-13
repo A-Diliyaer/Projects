@@ -61,6 +61,12 @@ public class FirstAttempt {
         Collections.shuffle(deck);
     }
 
+    public static String dealACard() {
+        String card1 = deck.get(0);
+        deck.remove(0);
+        return card1;
+    }
+
     public static void holeCards() throws InterruptedException {
         player1Cards.add(dealACard());
         player2Cards.add(dealACard());
@@ -492,11 +498,7 @@ public class FirstAttempt {
 
     }
 
-    public static String dealACard() {
-        String card1 = deck.get(0);
-        deck.remove(0);
-        return card1;
-    }
+
 
 
 }
