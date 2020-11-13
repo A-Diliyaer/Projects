@@ -184,10 +184,10 @@ public class FirstAttempt {
         for (int i = 0; i < values.size(); i++) {
             straight.clear();
             straight.add(values.get(i));
-            straight.add(values.get(i)+ 1);
-            straight.add(values.get(i)+ 2);
-            straight.add(values.get(i)+ 3);
-            straight.add(values.get(i)+ 4);
+            straight.add(values.get(i) + 1);
+            straight.add(values.get(i) + 2);
+            straight.add(values.get(i) + 3);
+            straight.add(values.get(i) + 4);
             if (values.containsAll(straight)) {
                 straightCount = 4;
             }
