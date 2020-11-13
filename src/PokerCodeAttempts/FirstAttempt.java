@@ -184,8 +184,9 @@ public class FirstAttempt {
         List<Integer> values = new ArrayList<>(cardValue(playerCards));
         List<Integer> straight = new ArrayList<>();
         List<String> suits = new ArrayList<>();
-        int straightCount = 0, suitCount = 0, doubleCount = 0, tripleCount = 0, quadCount = 0;
-        String cardRank = "";
+        int straightCount = 0, suitCount = 0, doubleCount = 0, tripleCount = 0, quadCount = 0, royalFlush = 0;
+        int straightFlush = 0;
+        String cardRank = "", suitType = "";
         Collections.sort(values);
         for (int i = 0; i < values.size(); i++) {
             straight.clear();
@@ -205,6 +206,7 @@ public class FirstAttempt {
             String suit = suits.get(i);
             if (Collections.frequency(suits, suit) == 5) {
                 suitCount = 5;
+                suitType = suit;
                 break;
             }
         }
@@ -217,19 +219,38 @@ public class FirstAttempt {
                 quadCount++;
             }
         }
-        if (values.containsAll(Arrays.asList(10, 11, 12, 13, 14)) && suitCount == 5) {
-            cardRank = "Royal Flush";
-        } else if (straightCount == 4 && suitCount == 5) {
-            cardRank = "Straight Flush";
+        if (values.containsAll(Arrays.asList(10, 11, 12, 13, 14))) {
+            for (String card : allCards) {
+                if (card.startsWith("10") || card.startsWith("J") || card.startsWith("Q") || card.startsWith("K") || card.startsWith("A")) {
+                    if (card.contains(suitType) && !suitType.isEmpty()) {
+                        royalFlush++;
+                    }
+                }
+            }
+            if (royalFlush == 5) {
+                cardRank = "Royal Flush";
+            } else {
+                cardRank = "Straight";
+            }
+        } else if (straightCount == 4) {
+            List<String> cardsTemp = new ArrayList<>(removeExtraCards(allCards, values, straight));
+            for (String card : cardsTemp) {
+                if (card.contains(suitType)) {
+                    straightFlush++;
+                }
+            }
+            if (straightFlush == 5) {
+                cardRank = "Straight Flush";
+            } else {
+                cardRank = "Straight";
+            }
         } else if (quadCount == 4) {
             cardRank = "Four Of A Kind";
         } else if ((tripleCount == 3 && doubleCount == 2) || tripleCount > 3) {
             cardRank = "Full House";
         } else if (suitCount >= 5) {
             cardRank = "Flush";
-        } else if (straightCount == 4) {
-            cardRank = "Straight";
-        } else if (tripleCount == 3) {
+        }  else if (tripleCount == 3) {
             cardRank = "Three Of A Kind";
         } else if (doubleCount >= 4) {
             cardRank = "Two Pair";
