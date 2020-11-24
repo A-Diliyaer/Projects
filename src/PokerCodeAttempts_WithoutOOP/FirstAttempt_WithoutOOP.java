@@ -1,8 +1,8 @@
-package PokerCodeAttempts;
+package PokerCodeAttempts_WithoutOOP;
 
 import java.util.*;
 
-public class FirstAttempt {
+public class FirstAttempt_WithoutOOP {
 
     static List<String> deck = new ArrayList<>();
     static List<String> cards = Arrays.asList("2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A");
