@@ -1,8 +1,8 @@
-package PokerCodeAttempts;
+package PokerCodeAttempts_WithoutOOP;
 
 import java.util.*;
 
-public class FirstAttempt {
+public class FirstAttempt_WithoutOOP {
 
     static List<String> deck = new ArrayList<>();
     static List<String> cards = Arrays.asList("2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A");
@@ -21,7 +21,6 @@ public class FirstAttempt {
     static String player3CardRank = "";
     static String player4CardRank = "";
     static String player5CardRank = "";
-
 
     public static void main(String[] args) throws InterruptedException {
         Scanner scan = new Scanner(System.in);
@@ -42,16 +41,13 @@ public class FirstAttempt {
             river();
             turn();
             winner();
-            //enter = scan.nextLine();
-        } while (!player1CardRank.equals("Four Of A Kind") && !player2CardRank.equals("Four Of A Kind") &&
-                !player3CardRank.equals("Four Of A Kind") && !player4CardRank.equals("Four Of A Kind") && !player5CardRank.equals("Four Of A Kind")); // enter.equals("")
+            enter = scan.nextLine();
+        } while (enter.equals("")); //  !player1CardRank.equals("Two Pair") && !player2CardRank.equals("Two Pair") && !player3CardRank.equals("Two Pair") && !player4CardRank.equals("Two Pair") && !player5CardRank.equals("Two Pair")
     }
 
     public static void startGame() {
         createDeck();
-        System.out.println(deck);
         shuffle();
-        System.out.println(deck);
     }
 
     public static void createDeck() {
@@ -89,16 +85,17 @@ public class FirstAttempt {
         allPlayerHoleCards.add(player4Cards);
         allPlayerHoleCards.add(player5Cards);
 
-        Thread.sleep(0);
-        System.out.println("player1Cards = " + player1Cards);
-        Thread.sleep(0);
-        System.out.println("player2Cards = " + player2Cards);
-        Thread.sleep(0);
-        System.out.println("player3Cards = " + player3Cards);
-        Thread.sleep(0);
-        System.out.println("player4Cards = " + player4Cards);
-        Thread.sleep(0);
-        System.out.println("player5Cards = " + player5Cards);
+        Thread.sleep(500);
+        System.out.println("player1's Cards are " + player1Cards);
+        Thread.sleep(500);
+        System.out.println("player2's Cards are " + player2Cards);
+        Thread.sleep(500);
+        System.out.println("player3's Cards are " + player3Cards);
+        Thread.sleep(500);
+        System.out.println("player4's Cards are " + player4Cards);
+        Thread.sleep(500);
+        System.out.println("player5's Cards are " + player5Cards);
+        System.out.println();
     }
 
     public static void flop() throws InterruptedException {
@@ -106,35 +103,39 @@ public class FirstAttempt {
         communityCards.add(dealACard());
         communityCards.add(dealACard());
         communityCards.add(dealACard());
-        Thread.sleep(0);
-        System.out.println("communityCards = " + communityCards);
+        Thread.sleep(500);
+        System.out.println("communityCards are " + communityCards);
+        System.out.println();
         player1CardRank = cardRankCheck(player1Cards);
         player2CardRank = cardRankCheck(player2Cards);
         player3CardRank = cardRankCheck(player3Cards);
         player4CardRank = cardRankCheck(player4Cards);
         player5CardRank = cardRankCheck(player5Cards);
-        System.out.println("player1Cards = " + player1CardRank + " " + find5Cards(player1Cards, player1CardRank));
-        System.out.println("player2Cards = " + player2CardRank + " " + find5Cards(player2Cards, player2CardRank));
-        System.out.println("player3Cards = " + player3CardRank + " " + find5Cards(player3Cards, player3CardRank));
-        System.out.println("player4Cards = " + player4CardRank + " " + find5Cards(player4Cards, player4CardRank));
-        System.out.println("player5Cards = " + player5CardRank + " " + find5Cards(player5Cards, player5CardRank));
+        System.out.println();
+        System.out.println("player1 has " + player1CardRank + "  " + find5Cards(player1Cards, player1CardRank));
+        System.out.println("player2 has " + player2CardRank + "  " + find5Cards(player2Cards, player2CardRank));
+        System.out.println("player3 has " + player3CardRank + "  " + find5Cards(player3Cards, player3CardRank));
+        System.out.println("player4 has " + player4CardRank + "  " + find5Cards(player4Cards, player4CardRank));
+        System.out.println("player5 has " + player5CardRank + "  " + find5Cards(player5Cards, player5CardRank));
     }
 
     public static void river() throws InterruptedException {
         dealACard();
         communityCards.add(dealACard());
-        Thread.sleep(0);
-        System.out.println("communityCards = " + communityCards);
+        Thread.sleep(500);
+        System.out.println();
+        System.out.println("communityCards are " + communityCards);
+        System.out.println();
         player1CardRank = cardRankCheck(player1Cards);
         player2CardRank = cardRankCheck(player2Cards);
         player3CardRank = cardRankCheck(player3Cards);
         player4CardRank = cardRankCheck(player4Cards);
         player5CardRank = cardRankCheck(player5Cards);
-        System.out.println("player1Cards = " + cardRankCheck(player1Cards) + " " + find5Cards(player1Cards, player1CardRank));
-        System.out.println("player2Cards = " + cardRankCheck(player2Cards) + " " + find5Cards(player2Cards, player2CardRank));
-        System.out.println("player3Cards = " + cardRankCheck(player3Cards) + " " + find5Cards(player3Cards, player3CardRank));
-        System.out.println("player4Cards = " + cardRankCheck(player4Cards) + " " + find5Cards(player4Cards, player4CardRank));
-        System.out.println("player5Cards = " + cardRankCheck(player5Cards) + " " + find5Cards(player5Cards, player5CardRank));
+        System.out.println("player1 has " + cardRankCheck(player1Cards) + "  " + find5Cards(player1Cards, player1CardRank));
+        System.out.println("player2 has " + cardRankCheck(player2Cards) + "  " + find5Cards(player2Cards, player2CardRank));
+        System.out.println("player3 has " + cardRankCheck(player3Cards) + "  " + find5Cards(player3Cards, player3CardRank));
+        System.out.println("player4 has " + cardRankCheck(player4Cards) + "  " + find5Cards(player4Cards, player4CardRank));
+        System.out.println("player5 has " + cardRankCheck(player5Cards) + "  " + find5Cards(player5Cards, player5CardRank));
     }
 
     public static void turn() throws InterruptedException {
@@ -302,7 +303,7 @@ public class FirstAttempt {
             case "Royal Flush":
             case "Straight Flush":
             case "Straight":
-                for (Integer copyValue : copyValues) {
+                for (Integer copyValue : copyValues) { // 2 8 4 10 6 4 11
                     straight.clear();
                     straight.add(copyValue);
                     straight.add(copyValue + 1);
@@ -530,13 +531,14 @@ public class FirstAttempt {
         return copyCards;
     }
 
-    public static void winner() {
+    public static void winner() throws InterruptedException {
         List<String> cardRanks = Arrays.asList("Royal Flush", "Straight Flush", "Four Of A Kind", "Full House",
                 "Flush", "Straight", "Three Of A Kind", "Two Pair", "One Pair", "High Card");
         List<Integer> rankIndex = new ArrayList<>();
         List<Integer> sameRankIndex = new ArrayList<>();
         List<Integer> sumOfCards = new ArrayList<>();
-        List<Integer> onePairList = new ArrayList<>();
+        List<Integer> pairList = new ArrayList<>();
+        List<Integer> sumOfPairs = new ArrayList<>();
         List<Integer> multiWinner = new ArrayList<>();
         List<List<Integer>> listOfValues = new ArrayList<>();
         List<String> allPlayerRanks = new ArrayList<>();
@@ -556,6 +558,7 @@ public class FirstAttempt {
         highestRank = allPlayerRanks.get(rankIndex.indexOf(highestRankIndex));
         if (Collections.frequency(rankIndex, highestRankIndex) == 1) {
             winnerIndex = rankIndex.indexOf(highestRankIndex);
+            Thread.sleep(1000);
             System.out.println("Player" + (winnerIndex + 1) + " wins with " + highestRank + " " + allPlayerCardsList.get(winnerIndex));
         } else {
             for (int i = 0; i < rankIndex.size(); i++) {
@@ -575,38 +578,123 @@ public class FirstAttempt {
 
             }
 
-            /*
-            System.out.println(sameRankIndex);// TEST************************************
-            System.out.println(listOfValues); // TEST************************************
-            System.out.println(sumOfCards); // TEST************************************
-             */
-
             if (highestRank.equals("Two Pair")) {
-                if (Collections.frequency(sumOfCards, Collections.max(sumOfCards)) == 1) {
+                for (List<Integer> values : listOfValues) {
+                    for (Integer value : values) {
+                        if (Collections.frequency(values, value) == 2) {
+                            pairList.add(value);
+                        }
+                    }
+                }
+                for (int i = 0; i < pairList.size(); i += 4) {
+                    sumOfPairs.add(pairList.get(i) + pairList.get(i + 1) + pairList.get(i + 2) + pairList.get(i + 3));
+                }
+                if (sumOfPairs.size() == 1) {
                     winnerIndex = sameRankIndex.get(sumOfCards.indexOf(Collections.max(sumOfCards)));
+                    Thread.sleep(1000);
                     System.out.println("Player" + (winnerIndex + 1) + " wins with " + highestRank + " " + allPlayerCardsList.get(winnerIndex));
-                } else {
-
+                } else if (sumOfPairs.size() > 1) {
+                    if (Collections.frequency(pairList, Collections.max(pairList)) == 2) {
+                        winnerIndex = sameRankIndex.get(pairList.indexOf(Collections.max(pairList)) / 4);
+                        Thread.sleep(1000);
+                        System.out.println("Player" + (winnerIndex + 1) + " wins with " + highestRank + " " + allPlayerCardsList.get(winnerIndex));
+                    } else if (Collections.frequency(pairList, Collections.max(pairList)) == 10) {
+                        for (int i = 0; i < 10; i++) {
+                            pairList.remove(Collections.max(pairList));
+                        }
+                        if (Collections.frequency(pairList, Collections.max(pairList)) == 2) {
+                            winnerIndex = sameRankIndex.get(pairList.indexOf(Collections.max(pairList)) / 2);
+                            Thread.sleep(1000);
+                            System.out.println("Player" + (winnerIndex + 1) + " wins with " + highestRank + " " + allPlayerCardsList.get(winnerIndex));
+                        } else if (Collections.frequency(pairList, Collections.max(pairList)) == 10) {
+                            if (Collections.frequency(sumOfCards, Collections.max(sumOfCards)) == 1) {
+                                winnerIndex = sameRankIndex.get(sumOfCards.indexOf(Collections.max(sumOfCards)));
+                                Thread.sleep(1000);
+                                System.out.println("Player" + (winnerIndex + 1) + " wins with " + highestRank + " " + allPlayerCardsList.get(winnerIndex));
+                            } else if (Collections.frequency(sumOfCards, Collections.max(sumOfCards)) == 5) {
+                                for (int i = 0; i < 5; i++) {
+                                    if (allPlayerCardsList.get(i).contains(allPlayerHoleCards.get(i).get(0))) {
+                                        multiWinner.add(i);
+                                    } else if (allPlayerCardsList.get(i).contains(allPlayerHoleCards.get(i).get(1))) {
+                                        multiWinner.add(i);
+                                    }
+                                }
+                                if (multiWinner.size() != 0) {
+                                    for (Integer winner : multiWinner) {
+                                        Thread.sleep(1000);
+                                        System.out.println("Player" + (winner + 1) + " Wins with " + highestRank + " " + allPlayerCardsList.get(winner));
+                                    }
+                                } else {
+                                    Thread.sleep(1000);
+                                    System.out.println("It's a Draw! Everyone Wins!");
+                                }
+                            } else {
+                                for (int i = 0; i < sumOfCards.size(); i++) {
+                                    if (sumOfCards.get(i).equals(Collections.max(sumOfCards))) {
+                                        multiWinner.add(sameRankIndex.get(i));
+                                    }
+                                }
+                                for (Integer winner : multiWinner) {
+                                    Thread.sleep(1000);
+                                    System.out.println("Player" + (winner + 1) + " Wins with " + highestRank + " " + allPlayerCardsList.get(winner));
+                                }
+                            }
+                        }
+                    } else {
+                        for (int i = 2; i < pairList.size(); i += 4) {
+                            if (!pairList.get(i).equals(Collections.max(pairList))) {
+                                pairList.set(i, 0);
+                                pairList.set(i + 1, 0);
+                                pairList.set(i - 1, 0);
+                                pairList.set(i - 2, 0);
+                            } else if (pairList.get(i).equals(Collections.max(pairList))) {
+                                pairList.set(i, 0);
+                                pairList.set(i + 1, 0);
+                            }
+                        }
+                        if (Collections.frequency(pairList, Collections.max(pairList)) == 2) {
+                            winnerIndex = sameRankIndex.get(pairList.indexOf(Collections.max(pairList)) / 4);
+                            Thread.sleep(1000);
+                            System.out.println("Player" + (winnerIndex + 1) + " wins with " + highestRank + " " + allPlayerCardsList.get(winnerIndex));
+                        } else {
+                            for (int i = 0; i < pairList.size(); i++) {
+                                if (!pairList.get(i).equals(Collections.max(pairList))) {
+                                    sumOfCards.set(i / 4, 0);
+                                }
+                            }
+                            for (int i = 0; i < sumOfCards.size(); i++) {
+                                if (sumOfCards.get(i).equals(Collections.max(sumOfCards))) {
+                                    multiWinner.add(sameRankIndex.get(i));
+                                }
+                            }
+                            for (Integer winner : multiWinner) {
+                                Thread.sleep(1000);
+                                System.out.println("Player" + (winner + 1) + " Wins with " + highestRank + " " + allPlayerCardsList.get(winner));
+                            }
+                        }
+                    }
                 }
             } else if (highestRank.equals("One Pair")) {
                 for (List<Integer> values : listOfValues) {
                     for (Integer value : values) {
                         if (Collections.frequency(values, value) == 2) {
-                            onePairList.add(value);
+                            pairList.add(value);
                         }
                     }
                 }
-                if (Collections.frequency(onePairList, Collections.max(onePairList)) == 2) {
-                    winnerIndex = sameRankIndex.get((onePairList.indexOf(Collections.max(onePairList)) / 2));
+                if (Collections.frequency(pairList, Collections.max(pairList)) == 2) {
+                    winnerIndex = sameRankIndex.get((pairList.indexOf(Collections.max(pairList)) / 2));
+                    Thread.sleep(1000);
                     System.out.println("Player" + (winnerIndex + 1) + " wins with " + highestRank + " " + allPlayerCardsList.get(winnerIndex));
                 } else {
                     for (int i = 0; i < listOfValues.size(); i++) {
-                        if (!listOfValues.get(i).contains(Collections.max(onePairList))) {
+                        if (!listOfValues.get(i).contains(Collections.max(pairList))) {
                             sumOfCards.set(i, 0);
                         }
                     }
                     if (Collections.frequency(sumOfCards, Collections.max(sumOfCards)) == 1) {
                         winnerIndex = sameRankIndex.get(sumOfCards.indexOf(Collections.max(sumOfCards)));
+                        Thread.sleep(1000);
                         System.out.println("Player" + (winnerIndex + 1) + " wins with " + highestRank + " " + allPlayerCardsList.get(winnerIndex));
                     } else if (Collections.frequency(sumOfCards, Collections.max(sumOfCards)) == 5) {
                         for (int i = 0; i < 5; i++) {
@@ -618,9 +706,11 @@ public class FirstAttempt {
                         }
                         if (multiWinner.size() != 0) {
                             for (Integer winner : multiWinner) {
+                                Thread.sleep(1000);
                                 System.out.println("Player" + (winner + 1) + " Wins with " + highestRank + " " + allPlayerCardsList.get(winner));
                             }
                         } else {
+                            Thread.sleep(1000);
                             System.out.println("It's a Draw! Everyone Wins!");
                         }
                     } else {
@@ -630,6 +720,7 @@ public class FirstAttempt {
                             }
                         }
                         for (Integer winner : multiWinner) {
+                            Thread.sleep(1000);
                             System.out.println("Player" + (winner + 1) + " Wins with " + highestRank + " " + allPlayerCardsList.get(winner));
                         }
                     }
@@ -637,6 +728,7 @@ public class FirstAttempt {
             } else {
                 if (Collections.frequency(sumOfCards, Collections.max(sumOfCards)) == 1) {
                     winnerIndex = sameRankIndex.get(sumOfCards.indexOf(Collections.max(sumOfCards)));
+                    Thread.sleep(1000);
                     System.out.println("Player" + (winnerIndex + 1) + " wins with " + highestRank + " " + allPlayerCardsList.get(winnerIndex));
                 } else if (Collections.frequency(sumOfCards, Collections.max(sumOfCards)) == 5) {
                     for (int i = 0; i < 5; i++) {
@@ -648,9 +740,11 @@ public class FirstAttempt {
                     }
                     if (multiWinner.size() != 0) {
                         for (Integer winner : multiWinner) {
+                            Thread.sleep(1000);
                             System.out.println("Player" + (winner + 1) + " Wins with " + highestRank + " " + allPlayerCardsList.get(winner));
                         }
                     } else {
+                        Thread.sleep(1000);
                         System.out.println("It's a Draw! Everyone Wins!");
                     }
                 } else {
@@ -660,6 +754,7 @@ public class FirstAttempt {
                         }
                     }
                     for (Integer winner : multiWinner) {
+                        Thread.sleep(1000);
                         System.out.println("Player" + (winner + 1) + " Wins with " + highestRank + " " + allPlayerCardsList.get(winner));
                     }
                 }
@@ -674,6 +769,5 @@ public class FirstAttempt {
         }
         return sum;
     }
-
 
 }
