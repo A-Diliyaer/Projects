@@ -7,30 +7,36 @@ public class PokerTable {
 
     public static void main(String[] args) {
 
-        GameEngine newGame = new GameEngine();
-        Deck deckOfCard = new Deck();
+        GameEngine Game = new GameEngine();
         Dealer dealer = new Dealer();
+        Utility utility = new Utility();
         Community communityCards = new Community();
-        Player player1 = new Player();
-        Player player2 = new Player();
-        Player player3 = new Player();
-        Player player4 = new Player();
-        Player player5 = new Player();
-        ArrayList<Player> players = new ArrayList<>(Arrays.asList(player1,player2,player3,player4,player5));
+        Player Tony = new Player();
+        Player Rogers = new Player();
+        Player Thor = new Player();
+        Player Natasha = new Player();
+        Player Banner = new Player();
+        ArrayList<Player> players = new ArrayList<>(Arrays.asList(Tony,Rogers,Thor,Natasha,Banner));
 
-        newGame.startGame();
+        Game.startGame();
         dealer.dealsHoleCards(players);
-        newGame.preFlop();
-        newGame.showPlayersCards(players);
+        Game.preFlop();
+        Game.showPlayersCards(players);
 
-        newGame.flop(communityCards);
-        newGame.showPlayersCards(players);
+        Game.flop(communityCards);
+        Game.showPlayersCards(players);
+        System.out.println(utility.findRank(Tony));
+        System.out.println(utility.findRank(Rogers));
+        System.out.println(utility.findRank(Thor));
+        System.out.println(utility.findRank(Natasha));
+        System.out.println(utility.findRank(Banner));
 
-        newGame.river(communityCards);
-        newGame.showPlayersCards(players);
+
+        Game.river(communityCards);
+        Game.showPlayersCards(players);
 
 
-        newGame.turn(communityCards);
-        newGame.showPlayersCards(players);
+        Game.turn(communityCards);
+        Game.showPlayersCards(players);
     }
 }

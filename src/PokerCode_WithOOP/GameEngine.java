@@ -7,6 +7,7 @@ public class GameEngine {
     public Deck deck = new Deck();
     public Dealer dealer = new Dealer();
     public ArrayList<Player> players = new ArrayList<>();
+    public Utility utility = new Utility();
 
 
     public void startGame() {
@@ -25,6 +26,10 @@ public class GameEngine {
         for (Player each : players) {
             System.out.println("Player" + (players.indexOf(each) + 1) + "'s cards: " + each);
         }
+    }
+
+    public void showRankAnd5Cards(Player player, Community community) {
+        System.out.println(utility.findRank(player) + utility.find5Cards(player, community,utility.findRank(player)));
     }
 
     public void flop(Community communityCards) {
