@@ -13,14 +13,14 @@ public class GameEngine {
     public void startGame() {
 
         Deck.deckOfCards = deck.createDeckOfCard();
-        System.out.println(Deck.deckOfCards); // Only for testing purposes
+
         deck.shuffle(Deck.deckOfCards);
-        System.out.println(Deck.deckOfCards); // Only for testing purposes
     }
 
-    public void preFlop() {
-        dealer.dealsHoleCards(this.players);
+    public void preFlop(ArrayList<Player> players) throws InterruptedException {
+        dealer.dealsHoleCards(players);
         showPlayersCards(players);
+        Thread.sleep(1000);
     }
 
     public void showPlayersCards(ArrayList<Player> players) {
@@ -38,10 +38,11 @@ public class GameEngine {
         System.out.println();
     }
 
-    public void flop(Community communityCards, ArrayList<Player> players) {
+    public void flop(Community communityCards, ArrayList<Player> players) throws InterruptedException {
         dealer.dealsFlop(communityCards);
         showCommunityCards(communityCards);
         showRankAnd5Cards(players, communityCards);
+        Thread.sleep(1000);
     }
 
     public void showCommunityCards(Community communityCards) {
@@ -49,10 +50,11 @@ public class GameEngine {
         System.out.println();
     }
 
-    public void river(Community communityCards, ArrayList<Player> players) {
+    public void river(Community communityCards, ArrayList<Player> players) throws InterruptedException {
         dealer.dealsRiver(communityCards);
         showCommunityCards(communityCards);
         showRankAnd5Cards(players, communityCards);
+        Thread.sleep(1000);
     }
 
     public void turn(Community communityCards, ArrayList<Player> players) {
@@ -61,6 +63,8 @@ public class GameEngine {
         showRankAnd5Cards(players, communityCards);
     }
 
-
+    public void displayWinner(ArrayList<Player> players, Community community) throws InterruptedException {
+        utility.displayWinner(players, community);
+    }
 
 }
