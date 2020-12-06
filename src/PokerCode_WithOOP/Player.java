@@ -8,8 +8,10 @@ import java.util.List;
 public class Player {
 
     public ArrayList<Card> hand = new ArrayList<>();
+    public String name;
 
-    public Player() {
+    public Player(String name) {
+        this.name = name;
     }
 
     public void addCard(Card card) {

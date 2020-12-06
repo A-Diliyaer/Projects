@@ -8,7 +8,6 @@ import java.util.List;
 
 public class Utility {
 
-    public Player player = new Player();
 
     public ArrayList<Integer> cardValue(ArrayList<Card> hand) {
         ArrayList<Integer> values = new ArrayList<>();
@@ -39,8 +38,10 @@ public class Utility {
         return values;
     }
 
-    public String findRank(Player player) {
-        ArrayList<Integer> values = new ArrayList<>(cardValue(player.hand));
+    public String findRank(Player player, Community community) {
+        ArrayList<Card> playerHandCopy = new ArrayList<>(player.hand);
+        playerHandCopy.addAll(community.communityCards);
+        ArrayList<Integer> values = new ArrayList<>(cardValue(playerHandCopy));
         ArrayList<Integer> straight = new ArrayList<>();
         ArrayList<String> suits = new ArrayList<>();
             int straightCount = 0, suitCount = 0, doubleCount = 0, tripleCount = 0, quadCount = 0, royalFlush = 0;
@@ -92,7 +93,7 @@ public class Utility {
                     cardRank = "Straight";
                 }
             } else if (straightCount == 4) {
-                List<Card> cardsTemp = new ArrayList<>(removeExtraCards(player, values, straight).hand);
+                List<Card> cardsTemp = new ArrayList<>(removeExtraCards(playerHandCopy, values, straight));
                 for (Card card : cardsTemp) {
                     if (card.suitType.equals(suitType)) {
                         straightFlush++;
@@ -123,7 +124,9 @@ public class Utility {
         }
 
     public ArrayList<Card> find5Cards(Player player, Community community ,String playerCardRank) {
-        ArrayList<Integer> values = new ArrayList<>(cardValue(player.hand));
+        ArrayList<Card> playerHandCopy = new ArrayList<>(player.hand);
+        playerHandCopy.addAll(community.communityCards);
+        ArrayList<Integer> values = new ArrayList<>(cardValue(playerHandCopy));
         ArrayList<Integer> copyValues = new ArrayList<>(values);
         ArrayList<Integer> newValues = new ArrayList<>();
         ArrayList<Integer> straight = new ArrayList<>();
@@ -157,9 +160,9 @@ public class Utility {
                 }
                 Collections.sort(newValues);
                 if (community.communityCards.size() > 3) {
-                    highRankCards.addAll(sortCards(removeExtraCards(player, values, newValues).hand, newValues));
+                    highRankCards.addAll(sortCards(removeExtraCards(playerHandCopy, values, newValues), newValues));
                 } else {
-                    highRankCards.addAll(sortCards(player.hand, values));
+                    highRankCards.addAll(sortCards(playerHandCopy, values));
                 }
                 break;
 
@@ -173,9 +176,9 @@ public class Utility {
                     }
                     newValues.add(copyValues.get(copyValues.size() - 1));
                     Collections.sort(newValues);
-                    highRankCards.addAll(sortCards(removeExtraCards(player, values, newValues).hand, newValues));
+                    highRankCards.addAll(sortCards(removeExtraCards(playerHandCopy, values, newValues), newValues));
                 } else {
-                    highRankCards.addAll(sortCards(player.hand, values));
+                    highRankCards.addAll(sortCards(playerHandCopy, values));
                 }
                 break;
             case "Full House":
@@ -197,18 +200,18 @@ public class Utility {
                         }
                     }
                     Collections.sort(newValues);
-                    highRankCards.addAll(sortCards(removeExtraCards(player, values, newValues).hand, newValues));
+                    highRankCards.addAll(sortCards(removeExtraCards(playerHandCopy, values, newValues), newValues));
                 } else {
-                    highRankCards.addAll(sortCards(player.hand, values));
+                    highRankCards.addAll(sortCards(playerHandCopy, values));
                 }
                 break;
             case "Flush":
-                for (Card card : player.hand) {
+                for (Card card : playerHandCopy) {
                     suits.add(card.suitType);
                 }
                 for (String suit : suits) {
                     if (Collections.frequency(suits, suit) == 5) {
-                        for (Card card : player.hand) {
+                        for (Card card : playerHandCopy) {
                             if (card.suitType.equals(suit)) {
                                 copyAllCards.add(card);
                             }
@@ -230,9 +233,9 @@ public class Utility {
                     newValues.add(copyValues.get(copyValues.size() - 2));
                     newValues.add(copyValues.get(copyValues.size() - 1));
                     Collections.sort(newValues);
-                    highRankCards.addAll(sortCards(removeExtraCards(player, values, newValues).hand, newValues));
+                    highRankCards.addAll(sortCards(removeExtraCards(playerHandCopy, values, newValues), newValues));
                 } else {
-                    highRankCards.addAll(sortCards(player.hand, values));
+                    highRankCards.addAll(sortCards(playerHandCopy, values));
                 }
                 break;
             case "Two Pair":
@@ -252,9 +255,9 @@ public class Utility {
                         }
                     }
                     Collections.sort(newValues);
-                    highRankCards.addAll(sortCards(removeExtraCards(player, values, newValues).hand, newValues));
+                    highRankCards.addAll(sortCards(removeExtraCards(playerHandCopy, values, newValues), newValues));
                 } else {
-                    highRankCards.addAll(sortCards(player.hand, values));
+                    highRankCards.addAll(sortCards(playerHandCopy, values));
                 }
                 break;
             case "One Pair":
@@ -269,39 +272,39 @@ public class Utility {
                     newValues.add(copyValues.get(copyValues.size() - 2));
                     newValues.add(copyValues.get(copyValues.size() - 1));
                     Collections.sort(newValues);
-                    highRankCards.addAll(sortCards(removeExtraCards(player, values, newValues).hand, newValues));
+                    highRankCards.addAll(sortCards(removeExtraCards(playerHandCopy, values, newValues), newValues));
                 } else {
-                    highRankCards.addAll(sortCards(player.hand, values));
+                    highRankCards.addAll(sortCards(playerHandCopy, values));
                 }
 
                 break;
             case "High Card":
                 if (community.communityCards.size() == 5) {
-                    highRankCards.addAll(sortCards(player.hand, values));
+                    highRankCards.addAll(sortCards(playerHandCopy, values));
                     highRankCards.remove(0);
                     highRankCards.remove(1);
                 } else if (community.communityCards.size() == 4) {
-                    highRankCards.addAll(sortCards(player.hand, values));
+                    highRankCards.addAll(sortCards(playerHandCopy, values));
                     highRankCards.remove(0);
                 } else {
-                    highRankCards.addAll(sortCards(player.hand, values));
+                    highRankCards.addAll(sortCards(playerHandCopy, values));
                 }
                 break;
         }
         return highRankCards;
     }
 
-    public static Player removeExtraCards(Player player, ArrayList<Integer> originalValues, ArrayList<Integer> shortValues) {
+    public static ArrayList<Card> removeExtraCards(ArrayList<Card> playerHand, ArrayList<Integer> originalValues, ArrayList<Integer> shortValues) {
         ArrayList<Integer> copyValue = new ArrayList<>(originalValues);
         for (Integer shortValue : shortValues) {
             copyValue.remove(shortValue);
         }
         List<Integer> toBeRemoved = new ArrayList<>(copyValue);
         for (Integer value : toBeRemoved) {
-            player.hand.remove(originalValues.indexOf(value));
+            playerHand.remove(originalValues.indexOf(value));
             originalValues.remove(value);
         }
-        return player;
+        return playerHand;
     }
 
     public static ArrayList<Card> sortCards(ArrayList<Card> hand, List<Integer> values) {
