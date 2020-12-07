@@ -5,32 +5,25 @@ import java.util.Arrays;
 
 public class PokerTable {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
-        GameEngine newGame = new GameEngine();
-        Deck deckOfCard = new Deck();
-        Dealer dealer = new Dealer();
+        GameEngine game = new GameEngine();
         Community communityCards = new Community();
-        Player player1 = new Player();
-        Player player2 = new Player();
-        Player player3 = new Player();
-        Player player4 = new Player();
-        Player player5 = new Player();
-        ArrayList<Player> players = new ArrayList<>(Arrays.asList(player1,player2,player3,player4,player5));
 
-        newGame.startGame();
-        dealer.dealsHoleCards(players);
-        newGame.preFlop();
-        newGame.showPlayersCards(players);
+        ArrayList<Player> players = new ArrayList<>(Arrays.asList(
+                new Player("Tony"), new Player("Rogers"), new Player("Thor"),
+                new Player("Natasha"), new Player("Banner")));
 
-        newGame.flop(communityCards);
-        newGame.showPlayersCards(players);
+        game.startGame();
 
-        newGame.river(communityCards);
-        newGame.showPlayersCards(players);
+        game.preFlop(players);
 
+        game.flop(communityCards, players);
 
-        newGame.turn(communityCards);
-        newGame.showPlayersCards(players);
+        game.river(communityCards, players);
+
+        game.turn(communityCards, players);
+
+        game.displayWinner(players, communityCards);
     }
 }
